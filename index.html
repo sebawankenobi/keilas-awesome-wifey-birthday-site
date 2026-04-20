@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Curious Birthday 💜</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Floating elements */
+.floating {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 6s infinite ease-in-out;
+}
+
+.f1 { left: 10%; top: 20%; }
+.f2 { left: 80%; top: 30%; animation-delay: 2s; }
+.f3 { left: 50%; top: 10%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-40px) rotate(15deg); }
+    100% { transform: translateY(0) rotate(0); }
+}
+
+.container {
+    padding: 60px 20px;
+}
+
+h1 {
+    font-size: 3em;
+    transform: rotate(-2deg);
+}
+
+h2 {
+    transform: rotate(2deg);
+}
+
+/* Button */
+button {
+    background-color: #ffb703;
+    color: #240046;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1) rotate(3deg);
+}
+
+/* Hidden message */
+.hidden {
+    display: none;
+    margin-top: 20px;
+}
+
+/* Gallery */
+.gallery {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.photo {
+    width: 100px;
+    height: 100px;
+    background: #c77dff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(5deg);
+}
+
+/* SpongeBob-style popup */
+.popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ffd166;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: none;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="floating f1">🌼</div>
+<div class="floating f2">🌀</div>
+<div class="floating f3">💜</div>
+
+<div class="container">
+    <h1>Down the Rabbit Hole 🐇</h1>
+    <h2>It’s Your Birthday 💜</h2>
+
+    <p>
+        In a world full of madness, you're my favorite kind of strange.<br>
+        Even stranger than a pineapple under the sea 🍍
+    </p>
+
+    <button onclick="reveal()">Do NOT Click This 👀</button>
+
+    <div id="secret" class="hidden">
+        <p>
+            You clicked it anyway 😄<br><br>
+            That’s why I love you.<br>
+            You make everything brighter, weirder, and better 💜🌼
+        </p>
+    </div>
+
+    <div class="gallery">
+        <div class="photo">📸</div>
+        <div class="photo">📸</div>
+        <div class="photo">📸</div>
+    </div>
+</div>
+
+<div id="popup" class="popup">5 minutes later... ⏳</div>
+
+<script>
+function reveal() {
+    const secret = document.getElementById("secret");
+    const popup = document.getElementById("popup");
+
+    if (secret.classList.contains("hidden")) {
+        secret.classList.remove("hidden");
+
+        // Show silly popup
+        popup.style.display = "block";
+
+        setTimeout(() => {
+            popup.style.display = "none";
+        }, 3000);
+
+    } else {
+        secret.innerHTML = "Okay, now you're just having fun clicking things 😄💜";
+    }
+}
+</script>
+
+</body>
+</html>
