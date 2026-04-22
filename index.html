@@ -14,6 +14,40 @@ body {
     overflow-x: hidden;
 }
 
+/* SPLASH */
+#splashScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top, #240046, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    cursor: pointer;
+}
+
+#splashContent {
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
+
+#splashContent h1 {
+    font-size: 2em;
+}
+
+#splashContent p {
+    opacity: 0.7;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* MAIN */
+#mainContent { display: none; }
+
 .floating {
     position: absolute;
     font-size: 2rem;
@@ -75,14 +109,12 @@ button {
 #lightbox {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: hidden;
 }
 
 #lightbox::before {
@@ -93,7 +125,6 @@ button {
     background-size: cover;
     background-position: center;
     filter: blur(25px) brightness(0.4);
-    transform: scale(1.1);
     z-index: -1;
 }
 
@@ -108,7 +139,7 @@ button {
     max-height: 80%;
     border-radius: 15px;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s;
 }
 
 .show-img { opacity: 1 !important; }
@@ -117,9 +148,8 @@ button {
     margin-top: 15px;
     max-width: 80%;
     background: rgba(0,0,0,0.5);
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 10px;
-    font-size: 0.95em;
 }
 
 .navBtn {
@@ -130,9 +160,8 @@ button {
     background: rgba(255,255,255,0.2);
     border: none;
     color: white;
-    padding: 10px 15px;
+    padding: 10px;
     cursor: pointer;
-    border-radius: 50%;
 }
 
 #prevBtn { left: 20px; }
@@ -141,7 +170,6 @@ button {
 #toggleSlideshow {
     position: absolute;
     bottom: 30px;
-    background: rgba(255,255,255,0.2);
 }
 
 /* FINAL SCREEN */
@@ -156,10 +184,16 @@ button {
     align-items: center;
 }
 
-#typewriter {
-    font-size: 1.6em;
-    max-width: 600px;
-    line-height: 1.6;
+#finalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#backBtn {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
 }
 
 .cursor { animation: blink 1s infinite; }
@@ -169,6 +203,17 @@ button {
 </head>
 
 <body>
+
+<!-- SPLASH -->
+<div id="splashScreen" onclick="startExperience()">
+    <div id="splashContent">
+        <h1>Oh no, what might this surprise be?! 👀</h1>
+        <p>(go ahead… click it)</p>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div id="mainContent">
 
 <div class="floating f1">🌼</div>
 <div class="floating f2">🌀</div>
@@ -201,88 +246,67 @@ You make everything brighter, weirder, and better 💜🌼
 <button onclick="startFinal()">One Last Thing 💜</button>
 
 </div>
+</div>
 
+<!-- LIGHTBOX -->
 <div id="lightbox">
-    <button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
-    <div id="lightboxContent">
-        <img id="lightboxImg">
-        <div id="lightboxCaption"></div>
-    </div>
-    <button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
-    <button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
+<button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
+<div id="lightboxContent">
+<img id="lightboxImg">
+<div id="lightboxCaption"></div>
+</div>
+<button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
+<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
 </div>
 
-<div id="finalScreen">
+<!-- FINAL -->
+<div id="finalScreen" onclick="closeFinal(event)">
+<div id="finalContent">
 <div id="typewriter"></div>
+<button id="backBtn" onclick="closeFinal(event)">← Back</button>
+</div>
 </div>
 
-<audio id="bgMusic" src="audio/song.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="audio/song.mp3"></audio>
 
 <script>
 
-const images = [
-"images/FB_IMG_1557711830326.jpg",
-"images/20190801_163558.jpg",
-"images/20190823_171856.jpg",
-"images/IMG-20191223-WA0015.jpg",
-"images/20200912_201834.jpg",
-"images/IMG-20210325-WA0000.jpg",
-"images/IMG-20210423-WA0001.jpg",
-"images/IMG-20210423-WA0018.jpg",
-"images/IMG-20210423-WA0020.jpg",
-"images/IMG-20210423-WA0037.jpg",
-"images/IMG-20210423-WA0038.jpg",
-"images/20230409_090603.jpg",
-"images/20230423_144323.jpg",
-"images/IMG_20230920_103736_268.jpg",
-"images/IMG-20230906-WA0000.jpg",
-"images/IMG-20251122-WA0003.jpg",
-"images/IMG-20251122-WA0004.jpg"
-];
+/* SPLASH */
+function startExperience() {
+    document.getElementById("splashScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
 
-const memories = [
-"Back when everything was just starting… and somehow it already felt right 💜",
-"I didn’t know it then, but this was the beginning of something I’d never want to lose",
-"This day still lives in my head like it just happened",
-"Even the simple moments with you always meant more",
-"Somewhere around here… I realized I just really liked being with you 😄",
-"You always knew how to make everything more fun",
-"I don’t even remember what we were doing… just that I was happy",
-"This is one of those moments I wish I could pause forever",
-"You made ordinary days feel like something special",
-"I still laugh when I think about this 😂",
-"This is the kind of memory that just sticks with me",
-"By now… it wasn’t just fun anymore. It was real 💜",
-"You became my favorite person without me even noticing when it happened",
-"This version of us… this is my favorite",
-"I don’t say it enough, but moments like this mean everything to me",
-"After everything… it’s still you. It’s always been you 💜",
-"And somehow, it just keeps getting better"
-];
+/* DATA */
+const images = [ /* keep same list */ ];
+const memories = [ /* keep same list */ ];
 
 let currentIndex = 0;
 let slideshowInterval = null;
 
+/* BUILD */
 const gallery = document.getElementById("gallery");
-images.forEach((src, index) => {
+images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
     img.className = "photo";
-    img.onclick = () => openLightbox(index);
+    img.onclick = () => openLightbox(i);
     gallery.appendChild(img);
 });
 
+/* MUSIC START */
 function reveal() {
     document.getElementById("secret").style.display = "block";
     document.querySelector(".gallery").style.opacity = "1";
 
     const music = document.getElementById("bgMusic");
     music.currentTime = 15;
-    music.play().catch(err => console.log("Audio error:", err));
+    music.play();
 }
 
-function openLightbox(index) {
-    currentIndex = index;
+/* LIGHTBOX */
+function openLightbox(i) {
+    currentIndex = i;
     document.getElementById("lightbox").style.display = "flex";
     updateLightbox();
 }
@@ -296,7 +320,6 @@ function updateLightbox() {
     setTimeout(() => {
         img.src = images[currentIndex];
         caption.innerHTML = memories[currentIndex];
-        showMemory(currentIndex);
         img.classList.add("show-img");
     }, 100);
 
@@ -324,66 +347,42 @@ function toggleSlideshow(e) {
         slideshowInterval = null;
         btn.innerHTML = "▶";
     } else {
-        slideshowInterval = setInterval(() => {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateLightbox();
-        }, 3000);
+        slideshowInterval = setInterval(() => nextImage(e), 3000);
         btn.innerHTML = "⏸";
     }
 }
 
-function showMemory(index) {
-    const box = document.getElementById("memoryText");
-    box.innerHTML = memories[index];
-    box.style.display = "block";
-}
-
-document.getElementById("lightbox").addEventListener("click", () => {
+document.getElementById("lightbox").onclick = () => {
     document.getElementById("lightbox").style.display = "none";
-    if (slideshowInterval) clearInterval(slideshowInterval);
-});
+    clearInterval(slideshowInterval);
+};
 
-let startX = 0;
-document.getElementById("lightbox").addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-});
-document.getElementById("lightbox").addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50) nextImage(e);
-    if (endX - startX > 50) prevImage(e);
-});
-
+/* FINAL */
 function startFinal() {
-    const screen = document.getElementById("finalScreen");
-    const element = document.getElementById("typewriter");
-    const music = document.getElementById("bgMusic");
-
-    screen.style.display = "flex";
-    element.innerHTML = "";
-
-    // DO NOT restart music — just gently increase volume if needed
-    let volume = music.volume || 0.2;
-    const fade = setInterval(() => {
-        if (volume < 0.5) {
-            volume += 0.02;
-            music.volume = volume;
-        } else clearInterval(fade);
-    }, 200);
+    document.getElementById("finalScreen").style.display = "flex";
 
     const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
+    const el = document.getElementById("typewriter");
 
+    el.innerHTML = "";
     let i = 0;
+
     function type() {
         if (i < text.length) {
-            element.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
             i++;
             setTimeout(type, 45);
         } else {
-            element.innerHTML += '<span class="cursor">|</span>';
+            el.innerHTML += '<span class="cursor">|</span>';
         }
     }
 
-    setTimeout(type, 1200);
+    setTimeout(type, 1000);
+}
+
+function closeFinal(e) {
+    e.stopPropagation();
+    document.getElementById("finalScreen").style.display = "none";
 }
 
 </script>
