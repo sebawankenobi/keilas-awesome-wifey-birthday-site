@@ -2,87 +2,203 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday 💜</title>
+<title>A Curious Birthday 💜</title>
 
 <style>
 body {
-    margin:0;
-    font-family:Arial;
-    background:#240046;
-    color:white;
-    text-align:center;
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
 }
 
 /* SPLASH */
 #splashScreen {
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top, #240046, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    cursor: pointer;
 }
 
-#mainContent { display:none; }
+#splashContent {
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
 
-/* GALLERY */
+#splashContent h1 {
+    font-size: 2em;
+}
+
+#splashContent p {
+    opacity: 0.7;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* MAIN */
+#mainContent { display: none; }
+
+.floating {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 6s infinite ease-in-out;
+}
+
+.f1 { left: 10%; top: 20%; }
+.f2 { left: 80%; top: 30%; animation-delay: 2s; }
+.f3 { left: 50%; top: 10%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-40px); }
+    100% { transform: translateY(0); }
+}
+
+.container { padding: 60px 20px; }
+
+button {
+    background-color: #ffb703;
+    color: #240046;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+/* Gallery */
 .gallery {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px;
-    margin-top:20px;
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
 
 .photo {
-    width:150px;
-    height:150px;
-    object-fit:cover;
-    cursor:pointer;
+    width: clamp(140px, 35vw, 240px);
+    height: clamp(140px, 35vw, 240px);
+    object-fit: cover;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.photo:hover { transform: scale(1.05); }
+
+#memoryText {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    display: none;
 }
 
 /* LIGHTBOX */
 #lightbox {
-    position:fixed;
-    top:0;
-    width:100%;
-    height:100%;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    background:black;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#lightbox::before {
+    content: "";
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.4);
+    z-index: -1;
+}
+
+#lightboxContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #lightbox img {
-    max-width:90%;
-    max-height:90%;
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 15px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.show-img { opacity: 1 !important; }
+
+#lightboxCaption {
+    margin-top: 15px;
+    max-width: 80%;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .navBtn {
-    position:absolute;
-    top:50%;
-    font-size:2rem;
-    background:none;
-    border:none;
-    color:white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
 }
 
-#prevBtn { left:20px; }
-#nextBtn { right:20px; }
+#prevBtn { left: 20px; }
+#nextBtn { right: 20px; }
 
-/* FINAL */
+#toggleSlideshow {
+    position: absolute;
+    bottom: 30px;
+}
+
+/* FINAL SCREEN */
 #finalScreen {
-    position:fixed;
-    top:0;
-    width:100%;
-    height:100%;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    background:black;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,0,20,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
+
+#finalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#backBtn {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+
+.cursor { animation: blink 1s infinite; }
+
+@keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 
@@ -90,72 +206,85 @@ body {
 
 <!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
-<h1>Oh no, what might this surprise be?! 👀</h1>
+    <div id="splashContent">
+        <h1>Oh no, what might this surprise be?! 👀</h1>
+        <p>(go ahead… click it)</p>
+    </div>
 </div>
 
 <!-- MAIN -->
 <div id="mainContent">
 
+<div class="floating f1">🌼</div>
+<div class="floating f2">🌀</div>
+<div class="floating f3">💜</div>
+
+<div class="container">
+
 <h1>Down the Rabbit Hole 🐇</h1>
+<h2>It’s Your Birthday 💜</h2>
+
+<p>
+In a world full of madness, you're my favorite kind of strange.<br>
+Even stranger than a pineapple under the sea 🍍<br><br>
+I was going through these… and I realized something…
+</p>
 
 <button onclick="reveal()">Do NOT Click This 👀</button>
 
+<div id="secret" style="display:none;">
+<p>
+You clicked it anyway 😄<br><br>
+That’s why I love you.<br>
+You make everything brighter, weirder, and better 💜🌼
+</p>
+</div>
+
 <div class="gallery" id="gallery"></div>
+<div id="memoryText"></div>
 
 <button onclick="startFinal()">One Last Thing 💜</button>
 
 </div>
+</div>
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
-<button class="navBtn" id="prevBtn" onclick="prevImage(event)">❮</button>
+<button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
+<div id="lightboxContent">
 <img id="lightboxImg">
-<button class="navBtn" id="nextBtn" onclick="nextImage(event)">❯</button>
+<div id="lightboxCaption"></div>
+</div>
+<button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
+<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
 </div>
 
 <!-- FINAL -->
-<div id="finalScreen" onclick="closeFinal()">
-<h1>Happy Birthday 💜</h1>
+<div id="finalScreen" onclick="closeFinal(event)">
+<div id="finalContent">
+<div id="typewriter"></div>
+<button id="backBtn" onclick="closeFinal(event)">← Back</button>
+</div>
 </div>
 
-<!-- AUDIO -->
 <audio id="bgMusic" src="audio/song.mp3"></audio>
-<audio id="alertSound" src="audio/alert.mp3"></audio>
 
 <script>
 
-/* IMAGES */
-const images = [
-"images/20190801_163558.jpg",
-"images/20190823_171856.jpg",
-"images/20200912_201834.jpg",
-"images/20230409_090603.jpg",
-"images/20230423_144323.jpg",
-"images/FB_IMG_1557711830326.jpg",
-"images/FB_IMG_1566611458309.jpg",
-"images/FB_IMG_1587683608211.jpg",
-"images/FB_IMG_1776693720360.jpg",
-"images/FB_IMG_1776885598001.jpg",
-"images/FB_IMG_1776885609789.jpg",
-"images/FB_IMG_1776885622286.jpg",
-"images/FB_IMG_1776885629939.jpg",
-"images/FB_IMG_1776885639302.jpg",
-"images/IMG-20191223-WA0015.jpg",
-"images/IMG-20210325-WA0000.jpg",
-"images/IMG-20210423-WA0001.jpg",
-"images/IMG-20210423-WA0018.jpg",
-"images/IMG-20210423-WA0020.jpg",
-"images/IMG-20210423-WA0037.jpg",
-"images/IMG-20210423-WA0038.jpg",
-"images/IMG-20230906-WA0000.jpg",
-"images/IMG-20251122-WA0003.jpg",
-"images/IMG-20251122-WA0004.jpg",
-"images/IMG_20230920_103736_268.jpg"
-];
+/* SPLASH */
+function startExperience() {
+    document.getElementById("splashScreen").style.display = "none";
+    document.getElementById("mainContent").style.display = "block";
+}
+
+/* DATA */
+const images = [ /* keep same list */ ];
+const memories = [ /* keep same list */ ];
 
 let currentIndex = 0;
+let slideshowInterval = null;
 
-/* BUILD GALLERY */
+/* BUILD */
 const gallery = document.getElementById("gallery");
 images.forEach((src, i) => {
     const img = document.createElement("img");
@@ -165,53 +294,94 @@ images.forEach((src, i) => {
     gallery.appendChild(img);
 });
 
-/* SPLASH */
-function startExperience() {
-    const splash = document.getElementById("splashScreen");
-    const main = document.getElementById("mainContent");
-
-    document.getElementById("alertSound").play().catch(()=>{});
-
-    main.style.display = "block";
-    splash.style.display = "none";
-}
-
-/* MUSIC */
+/* MUSIC START */
 function reveal() {
+    document.getElementById("secret").style.display = "block";
+    document.querySelector(".gallery").style.opacity = "1";
+
     const music = document.getElementById("bgMusic");
     music.currentTime = 15;
-    music.play().catch(()=>{});
+    music.play();
 }
 
 /* LIGHTBOX */
 function openLightbox(i) {
     currentIndex = i;
     document.getElementById("lightbox").style.display = "flex";
-    document.getElementById("lightboxImg").src = images[i];
+    updateLightbox();
+}
+
+function updateLightbox() {
+    const img = document.getElementById("lightboxImg");
+    const caption = document.getElementById("lightboxCaption");
+
+    img.classList.remove("show-img");
+
+    setTimeout(() => {
+        img.src = images[currentIndex];
+        caption.innerHTML = memories[currentIndex];
+        img.classList.add("show-img");
+    }, 100);
+
+    document.getElementById("lightbox").style.backgroundImage = `url(${images[currentIndex]})`;
 }
 
 function nextImage(e) {
     e.stopPropagation();
     currentIndex = (currentIndex + 1) % images.length;
-    document.getElementById("lightboxImg").src = images[currentIndex];
+    updateLightbox();
 }
 
 function prevImage(e) {
     e.stopPropagation();
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    document.getElementById("lightboxImg").src = images[currentIndex];
+    updateLightbox();
+}
+
+function toggleSlideshow(e) {
+    e.stopPropagation();
+    const btn = document.getElementById("toggleSlideshow");
+
+    if (slideshowInterval) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = null;
+        btn.innerHTML = "▶";
+    } else {
+        slideshowInterval = setInterval(() => nextImage(e), 3000);
+        btn.innerHTML = "⏸";
+    }
 }
 
 document.getElementById("lightbox").onclick = () => {
     document.getElementById("lightbox").style.display = "none";
+    clearInterval(slideshowInterval);
 };
 
 /* FINAL */
 function startFinal() {
     document.getElementById("finalScreen").style.display = "flex";
+
+    const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
+    const el = document.getElementById("typewriter");
+
+    el.innerHTML = "";
+    let i = 0;
+
+    function type() {
+        if (i < text.length) {
+            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+            i++;
+            setTimeout(type, 45);
+        } else {
+            el.innerHTML += '<span class="cursor">|</span>';
+        }
+    }
+
+    setTimeout(type, 1000);
 }
 
-function closeFinal() {
+function closeFinal(e) {
+    e.stopPropagation();
     document.getElementById("finalScreen").style.display = "none";
 }
 
