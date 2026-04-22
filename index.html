@@ -6,107 +6,112 @@
 
 <style>
 body {
-    margin:0;
-    font-family:'Comic Sans MS',cursive;
-    background: radial-gradient(circle at top,#7b2cbf,#240046);
-    color:white;
-    text-align:center;
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+    color: white;
+    text-align: center;
 }
 
 /* SPLASH */
-#splashScreen{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:#000;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:2000;
-    cursor:pointer;
-    transition:opacity .8s;
+#splashScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    cursor: pointer;
+    transition: opacity 0.8s;
 }
 
-/* MAIN */
-#mainContent{display:none;}
+#mainContent {
+    display: none;
+}
 
-.container{padding:60px 20px;}
+.container {
+    padding: 60px 20px;
+}
 
 /* GALLERY */
-.gallery{
-    margin-top:40px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
-    opacity:0;
-    transition:opacity 2s;
+.gallery {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 2s;
 }
 
-.photo{
-    width:clamp(140px,35vw,240px);
-    height:clamp(140px,35vw,240px);
-    object-fit:cover;
-    border-radius:15px;
-    cursor:pointer;
+.photo {
+    width: clamp(140px, 35vw, 240px);
+    height: clamp(140px, 35vw, 240px);
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
 }
 
-/* MEMORY TEXT */
-#memoryText{
-    margin-top:20px;
-    padding:10px;
-    background:rgba(255,255,255,0.1);
-    border-radius:10px;
-    display:none;
+/* MEMORY */
+#memoryText {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    display: none;
 }
 
 /* LIGHTBOX */
-#lightbox{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:100%;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:1000;
+#lightbox {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.9);
 }
 
-#lightbox img{
-    max-width:90%;
-    max-height:80%;
-    border-radius:15px;
+#lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 15px;
 }
 
-.navBtn{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    font-size:2rem;
-    background:rgba(255,255,255,0.2);
-    border:none;
-    color:white;
-    padding:10px;
+.navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 10px;
 }
 
-#prevBtn{left:20px;}
-#nextBtn{right:20px;}
+#prevBtn { left: 20px; }
+#nextBtn { right: 20px; }
 
 /* FINAL */
-#finalScreen{
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    background:rgba(0,0,0,0.95);
+#finalScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.95);
 }
 
-#backBtn{
-    margin-top:20px;
+#backBtn {
+    margin-top: 20px;
 }
+
+.cursor { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 
@@ -119,7 +124,6 @@ body {
 
 <!-- MAIN -->
 <div id="mainContent">
-
 <div class="container">
 
 <h1>Down the Rabbit Hole 🐇</h1>
@@ -155,114 +159,137 @@ body {
 
 <script>
 
-/* DATA */
-const images=[
+/* FULL IMAGE LIST */
+const images = [
 "images/20190801_163558.jpg",
-"images/20190823_171856.jpg"
+"images/20190823_171856.jpg",
+"images/20200912_201834.jpg",
+"images/20230409_090603.jpg",
+"images/20230423_144323.jpg",
+"images/FB_IMG_1557711830326.jpg",
+"images/FB_IMG_1566611458309.jpg",
+"images/FB_IMG_1587683608211.jpg",
+"images/FB_IMG_1776693720360.jpg",
+"images/FB_IMG_1776885598001.jpg",
+"images/FB_IMG_1776885609789.jpg",
+"images/FB_IMG_1776885622286.jpg",
+"images/FB_IMG_1776885629939.jpg",
+"images/FB_IMG_1776885639302.jpg",
+"images/IMG-20191223-WA0015.jpg",
+"images/IMG-20210325-WA0000.jpg",
+"images/IMG-20210423-WA0001.jpg",
+"images/IMG-20210423-WA0018.jpg",
+"images/IMG-20210423-WA0020.jpg",
+"images/IMG-20210423-WA0037.jpg",
+"images/IMG-20210423-WA0038.jpg",
+"images/IMG-20230906-WA0000.jpg",
+"images/IMG-20251122-WA0003.jpg",
+"images/IMG-20251122-WA0004.jpg",
+"images/IMG_20230920_103736_268.jpg"
 ];
 
-const memories=[
-"Back when everything started 💜",
-"This day still lives in my head"
-];
+/* MATCHING MEMORIES */
+const memories = images.map((_, i) => `Memory ${i+1} 💜`);
 
-let currentIndex=0;
+let currentIndex = 0;
 
 /* BUILD GALLERY */
-const gallery=document.getElementById("gallery");
-images.forEach((src,i)=>{
-    const img=document.createElement("img");
-    img.src=src;
-    img.className="photo";
-    img.onclick=()=>openLightbox(i);
+const gallery = document.getElementById("gallery");
+images.forEach((src, i) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "photo";
+    img.onclick = () => openLightbox(i);
     gallery.appendChild(img);
 });
 
 /* SPLASH */
-function startExperience(){
-    const splash=document.getElementById("splashScreen");
-    const main=document.getElementById("mainContent");
-    const alert=document.getElementById("alertSound");
+function startExperience() {
+    const splash = document.getElementById("splashScreen");
+    const main = document.getElementById("mainContent");
+    const alert = document.getElementById("alertSound");
 
-    alert.currentTime=0;
+    alert.currentTime = 0;
     alert.play().catch(()=>{});
 
-    main.style.display="block";
+    main.style.display = "block";
 
-    splash.style.opacity="0";
-    setTimeout(()=>{splash.style.display="none";},800);
+    splash.style.opacity = "0";
+    setTimeout(() => splash.style.display = "none", 800);
 }
 
 /* REVEAL */
-function reveal(){
-    document.querySelector(".gallery").style.opacity="1";
+function reveal() {
+    document.querySelector(".gallery").style.opacity = "1";
 
-    const music=document.getElementById("bgMusic");
-    music.currentTime=15;
+    const music = document.getElementById("bgMusic");
+    music.currentTime = 15;
     music.play();
 
     showMemory(0);
 }
 
 /* LIGHTBOX */
-function openLightbox(i){
-    currentIndex=i;
-    document.getElementById("lightbox").style.display="flex";
+function openLightbox(i) {
+    currentIndex = i;
+    document.getElementById("lightbox").style.display = "flex";
     updateLightbox();
 }
 
-function updateLightbox(){
-    document.getElementById("lightboxImg").src=images[currentIndex];
+function updateLightbox() {
+    document.getElementById("lightboxImg").src = images[currentIndex];
     showMemory(currentIndex);
 }
 
-function nextImage(e){
+function nextImage(e) {
     e.stopPropagation();
-    currentIndex=(currentIndex+1)%images.length;
+    currentIndex = (currentIndex + 1) % images.length;
     updateLightbox();
 }
 
-function prevImage(e){
+function prevImage(e) {
     e.stopPropagation();
-    currentIndex=(currentIndex-1+images.length)%images.length;
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateLightbox();
 }
 
-document.getElementById("lightbox").onclick=()=>{
-    document.getElementById("lightbox").style.display="none";
+document.getElementById("lightbox").onclick = () => {
+    document.getElementById("lightbox").style.display = "none";
 };
 
 /* MEMORY */
-function showMemory(i){
-    const box=document.getElementById("memoryText");
-    box.innerHTML=memories[i];
-    box.style.display="block";
+function showMemory(i) {
+    const box = document.getElementById("memoryText");
+    box.innerHTML = memories[i];
+    box.style.display = "block";
 }
 
 /* FINAL */
-function startFinal(){
-    document.getElementById("finalScreen").style.display="flex";
+function startFinal() {
+    document.getElementById("finalScreen").style.display = "flex";
 
-    const text="Out of all the strange things...\n\nI'm just glad I found you 💜";
-    const el=document.getElementById("typewriter");
+    const text = "Out of all the strange things...\n\nI'm just glad I found you 💜";
+    const el = document.getElementById("typewriter");
 
-    el.innerHTML="";
-    let i=0;
+    el.innerHTML = "";
+    let i = 0;
 
-    function type(){
-        if(i<text.length){
-            el.innerHTML+=text[i]==="\n"?"<br>":text[i];
+    function type() {
+        if (i < text.length) {
+            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
             i++;
-            setTimeout(type,40);
+            setTimeout(type, 40);
+        } else {
+            el.innerHTML += '<span class="cursor">|</span>';
         }
     }
 
     type();
 }
 
-function closeFinal(e){
+function closeFinal(e) {
     e.stopPropagation();
-    document.getElementById("finalScreen").style.display="none";
+    document.getElementById("finalScreen").style.display = "none";
 }
 
 </script>
