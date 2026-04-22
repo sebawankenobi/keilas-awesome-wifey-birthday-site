@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Floating elements */
 .floating {
     position: absolute;
     font-size: 2rem;
@@ -42,10 +41,8 @@ button {
     cursor: pointer;
 }
 
-/* Hidden */
 .hidden { display: none; }
 
-/* Gallery */
 .gallery {
     margin-top: 40px;
     display: flex;
@@ -56,7 +53,6 @@ button {
     transition: opacity 2s ease;
 }
 
-/* UPDATED PHOTO SIZE */
 .photo {
     width: clamp(140px, 35vw, 240px);
     height: clamp(140px, 35vw, 240px);
@@ -70,7 +66,6 @@ button {
     transform: scale(1.05);
 }
 
-/* Memory text */
 #memoryText {
     margin-top: 25px;
     padding: 15px;
@@ -97,6 +92,23 @@ button {
     max-height: 90%;
     border-radius: 15px;
 }
+
+/* Navigation buttons */
+.navBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#prevBtn { left: 20px; }
+#nextBtn { right: 20px; }
 
 /* FINAL SCREEN */
 #finalScreen {
@@ -153,27 +165,7 @@ You make everything brighter, weirder, and better 💜🌼
 </p>
 </div>
 
-<div class="gallery">
-
-<img src="images/FB_IMG_1557711830326.jpg" class="photo" onclick="openLightbox(this); showMemory(0)">
-<img src="images/20190801_163558.jpg" class="photo" onclick="openLightbox(this); showMemory(1)">
-<img src="images/20190823_171856.jpg" class="photo" onclick="openLightbox(this); showMemory(2)">
-<img src="images/IMG-20191223-WA0015.jpg" class="photo" onclick="openLightbox(this); showMemory(3)">
-<img src="images/20200912_201834.jpg" class="photo" onclick="openLightbox(this); showMemory(4)">
-<img src="images/IMG-20210325-WA0000.jpg" class="photo" onclick="openLightbox(this); showMemory(5)">
-<img src="images/IMG-20210423-WA0001.jpg" class="photo" onclick="openLightbox(this); showMemory(6)">
-<img src="images/IMG-20210423-WA0018.jpg" class="photo" onclick="openLightbox(this); showMemory(7)">
-<img src="images/IMG-20210423-WA0020.jpg" class="photo" onclick="openLightbox(this); showMemory(8)">
-<img src="images/IMG-20210423-WA0037.jpg" class="photo" onclick="openLightbox(this); showMemory(9)">
-<img src="images/IMG-20210423-WA0038.jpg" class="photo" onclick="openLightbox(this); showMemory(10)">
-<img src="images/20230409_090603.jpg" class="photo" onclick="openLightbox(this); showMemory(11)">
-<img src="images/20230423_144323.jpg" class="photo" onclick="openLightbox(this); showMemory(12)">
-<img src="images/IMG_20230920_103736_268.jpg" class="photo" onclick="openLightbox(this); showMemory(13)">
-<img src="images/IMG-20230906-WA0000.jpg" class="photo" onclick="openLightbox(this); showMemory(14)">
-<img src="images/IMG-20251122-WA0003.jpg" class="photo" onclick="openLightbox(this); showMemory(15)">
-<img src="images/IMG-20251122-WA0004.jpg" class="photo" onclick="openLightbox(this); showMemory(16)">
-
-</div>
+<div class="gallery" id="gallery"></div>
 
 <div id="memoryText" class="hidden"></div>
 
@@ -182,8 +174,10 @@ You make everything brighter, weirder, and better 💜🌼
 </div>
 
 <!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()">
+<div id="lightbox">
+    <button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
     <img id="lightboxImg">
+    <button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
 </div>
 
 <div id="finalScreen">
@@ -193,6 +187,26 @@ You make everything brighter, weirder, and better 💜🌼
 <audio id="bgMusic" src="audio/song.mp3" preload="auto"></audio>
 
 <script>
+
+const images = [
+"images/FB_IMG_1557711830326.jpg",
+"images/20190801_163558.jpg",
+"images/20190823_171856.jpg",
+"images/IMG-20191223-WA0015.jpg",
+"images/20200912_201834.jpg",
+"images/IMG-20210325-WA0000.jpg",
+"images/IMG-20210423-WA0001.jpg",
+"images/IMG-20210423-WA0018.jpg",
+"images/IMG-20210423-WA0020.jpg",
+"images/IMG-20210423-WA0037.jpg",
+"images/IMG-20210423-WA0038.jpg",
+"images/20230409_090603.jpg",
+"images/20230423_144323.jpg",
+"images/IMG_20230920_103736_268.jpg",
+"images/IMG-20230906-WA0000.jpg",
+"images/IMG-20251122-WA0003.jpg",
+"images/IMG-20251122-WA0004.jpg"
+];
 
 const memories = [
 "Back when everything was just starting… and somehow it already felt right 💜",
@@ -214,9 +228,48 @@ const memories = [
 "And somehow, it just keeps getting better"
 ];
 
+let currentIndex = 0;
+
+/* Build gallery dynamically */
+const gallery = document.getElementById("gallery");
+images.forEach((src, index) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "photo";
+    img.onclick = () => openLightbox(index);
+    gallery.appendChild(img);
+});
+
 function reveal() {
     document.getElementById("secret").classList.remove("hidden");
     document.querySelector(".gallery").style.opacity = "1";
+}
+
+function openLightbox(index) {
+    currentIndex = index;
+    document.getElementById("lightbox").style.display = "flex";
+    updateLightbox();
+}
+
+function updateLightbox() {
+    document.getElementById("lightboxImg").src = images[currentIndex];
+    showMemory(currentIndex);
+}
+
+function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+function nextImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % images.length;
+    updateLightbox();
+}
+
+function prevImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateLightbox();
 }
 
 function showMemory(index) {
@@ -225,16 +278,32 @@ function showMemory(index) {
     box.classList.remove("hidden");
 }
 
-/* LIGHTBOX FUNCTIONS */
-function openLightbox(img) {
-    document.getElementById("lightbox").style.display = "flex";
-    document.getElementById("lightboxImg").src = img.src;
-}
+/* Swipe support */
+let startX = 0;
 
-function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
-}
+document.getElementById("lightbox").addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
+});
 
+document.getElementById("lightbox").addEventListener("touchend", e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) nextImage(e);
+    if (endX - startX > 50) prevImage(e);
+});
+
+/* Close on background click */
+document.getElementById("lightbox").addEventListener("click", closeLightbox);
+
+/* Keyboard navigation */
+document.addEventListener("keydown", e => {
+    if (document.getElementById("lightbox").style.display === "flex") {
+        if (e.key === "ArrowRight") nextImage(e);
+        if (e.key === "ArrowLeft") prevImage(e);
+        if (e.key === "Escape") closeLightbox();
+    }
+});
+
+/* FINAL */
 function startFinal() {
 
     const screen = document.getElementById("finalScreen");
@@ -260,8 +329,6 @@ function startFinal() {
                     clearInterval(fade);
                 }
             }, 200);
-        }).catch(error => {
-            console.log("Playback failed:", error);
         });
     }
 
