@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Floating elements */
 .floating {
     position: absolute;
     font-size: 2rem;
@@ -26,19 +25,13 @@ body {
 .f3 { left: 50%; top: 10%; animation-delay: 4s; }
 
 @keyframes float {
-    0% { transform: translateY(0) rotate(0); }
-    50% { transform: translateY(-40px) rotate(15deg); }
-    100% { transform: translateY(0) rotate(0); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-40px); }
+    100% { transform: translateY(0); }
 }
 
-.container {
-    padding: 60px 20px;
-}
+.container { padding: 60px 20px; }
 
-h1 { font-size: 3em; transform: rotate(-2deg); }
-h2 { transform: rotate(2deg); }
-
-/* Button */
 button {
     background-color: #ffb703;
     color: #240046;
@@ -46,18 +39,10 @@ button {
     padding: 15px 25px;
     border-radius: 50px;
     cursor: pointer;
-    margin-top: 20px;
-    transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.1) rotate(3deg);
-}
-
-/* Hidden */
 .hidden { display: none; }
 
-/* Gallery */
 .gallery {
     margin-top: 40px;
     display: flex;
@@ -73,74 +58,40 @@ button:hover {
     height: 120px;
     object-fit: cover;
     border-radius: 20px;
-    transform: rotate(5deg);
-    transition: 0.3s;
     cursor: pointer;
 }
 
-.photo:hover {
-    transform: scale(1.1) rotate(0deg);
-}
-
-/* Memory text */
 #memoryText {
     margin-top: 25px;
-    font-size: 1.2em;
-    background: rgba(255,255,255,0.1);
     padding: 15px;
+    background: rgba(255,255,255,0.1);
     border-radius: 15px;
-    animation: fadeIn 1s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Popup */
-.popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ffd166;
-    color: black;
-    padding: 10px 15px;
-    border-radius: 10px;
-    display: none;
-    font-weight: bold;
 }
 
 /* FINAL SCREEN */
 #finalScreen {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 0, 20, 0.95);
+    background: rgba(10,0,20,0.95);
     display: none;
-    align-items: center;
     justify-content: center;
-    flex-direction: column;
-    z-index: 999;
+    align-items: center;
 }
 
 #typewriter {
-    font-size: 1.5em;
+    font-size: 1.6em;
     max-width: 600px;
     line-height: 1.6;
-    padding: 20px;
 }
 
 .cursor {
-    display: inline-block;
-    margin-left: 5px;
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    0%, 50%, 100% { opacity: 1; }
-    25%, 75% { opacity: 0; }
+    50% { opacity: 0; }
 }
 </style>
 </head>
@@ -152,62 +103,62 @@ button:hover {
 <div class="floating f3">💜</div>
 
 <div class="container">
-    <h1>Down the Rabbit Hole 🐇</h1>
-    <h2>It’s Your Birthday 💜</h2>
 
-    <p>
-        In a world full of madness, you're my favorite kind of strange.<br>
-        Even stranger than a pineapple under the sea 🍍<br><br>
-        I was going through these… and I realized something…
-    </p>
+<h1>Down the Rabbit Hole 🐇</h1>
+<h2>It’s Your Birthday 💜</h2>
 
-    <button onclick="reveal()">Do NOT Click This 👀</button>
+<p>
+In a world full of madness, you're my favorite kind of strange.<br>
+Even stranger than a pineapple under the sea 🍍<br><br>
+I was going through these… and I realized something…
+</p>
 
-    <div id="secret" class="hidden">
-        <p>
-            You clicked it anyway 😄<br><br>
-            That’s why I love you.<br>
-            You make everything brighter, weirder, and better 💜🌼
-        </p>
-    </div>
+<button onclick="reveal()">Do NOT Click This 👀</button>
 
-    <div class="gallery">
-
-    <img src="images/FB_IMG_1557711830326.jpg" class="photo" onclick="showMemory(0)">
-    <img src="images/20190801_163558.jpg" class="photo" onclick="showMemory(1)">
-    <img src="images/20190823_171856.jpg" class="photo" onclick="showMemory(2)">
-    <img src="images/IMG-20191223-WA0015.jpg" class="photo" onclick="showMemory(3)">
-    <img src="images/20200912_201834.jpg" class="photo" onclick="showMemory(4)">
-    <img src="images/IMG-20210325-WA0000.jpg" class="photo" onclick="showMemory(5)">
-    <img src="images/IMG-20210423-WA0001.jpg" class="photo" onclick="showMemory(6)">
-    <img src="images/IMG-20210423-WA0018.jpg" class="photo" onclick="showMemory(7)">
-    <img src="images/IMG-20210423-WA0020.jpg" class="photo" onclick="showMemory(8)">
-    <img src="images/IMG-20210423-WA0037.jpg" class="photo" onclick="showMemory(9)">
-    <img src="images/IMG-20210423-WA0038.jpg" class="photo" onclick="showMemory(10)">
-    <img src="images/20230409_090603.jpg" class="photo" onclick="showMemory(11)">
-    <img src="images/20230423_144323.jpg" class="photo" onclick="showMemory(12)">
-    <img src="images/IMG_20230920_103736_268.jpg" class="photo" onclick="showMemory(13)">
-    <img src="images/IMG-20230906-WA0000.jpg" class="photo" onclick="showMemory(14)">
-    <img src="images/IMG-20251122-WA0003.jpg" class="photo" onclick="showMemory(15)">
-    <img src="images/IMG-20251122-WA0004.jpg" class="photo" onclick="showMemory(16)">
-
-    </div>
-
-    <div id="memoryText" class="hidden"></div>
-
-    <div style="margin-top: 60px;">
-        <button onclick="startFinal()">One Last Thing 💜</button>
-    </div>
+<div id="secret" class="hidden">
+<p>
+You clicked it anyway 😄<br><br>
+That’s why I love you.<br>
+You make everything brighter, weirder, and better 💜🌼
+</p>
 </div>
 
-<div id="popup" class="popup">5 minutes later... ⏳</div>
+<div class="gallery">
 
-<!-- FINAL SCREEN -->
+<img src="images/FB_IMG_1557711830326.jpg" class="photo" onclick="showMemory(0)">
+<img src="images/20190801_163558.jpg" class="photo" onclick="showMemory(1)">
+<img src="images/20190823_171856.jpg" class="photo" onclick="showMemory(2)">
+<img src="images/IMG-20191223-WA0015.jpg" class="photo" onclick="showMemory(3)">
+<img src="images/20200912_201834.jpg" class="photo" onclick="showMemory(4)">
+<img src="images/IMG-20210325-WA0000.jpg" class="photo" onclick="showMemory(5)">
+<img src="images/IMG-20210423-WA0001.jpg" class="photo" onclick="showMemory(6)">
+<img src="images/IMG-20210423-WA0018.jpg" class="photo" onclick="showMemory(7)">
+<img src="images/IMG-20210423-WA0020.jpg" class="photo" onclick="showMemory(8)">
+<img src="images/IMG-20210423-WA0037.jpg" class="photo" onclick="showMemory(9)">
+<img src="images/IMG-20210423-WA0038.jpg" class="photo" onclick="showMemory(10)">
+<img src="images/20230409_090603.jpg" class="photo" onclick="showMemory(11)">
+<img src="images/20230423_144323.jpg" class="photo" onclick="showMemory(12)">
+<img src="images/IMG_20230920_103736_268.jpg" class="photo" onclick="showMemory(13)">
+<img src="images/IMG-20230906-WA0000.jpg" class="photo" onclick="showMemory(14)">
+<img src="images/IMG-20251122-WA0003.jpg" class="photo" onclick="showMemory(15)">
+<img src="images/IMG-20251122-WA0004.jpg" class="photo" onclick="showMemory(16)">
+
+</div>
+
+<div id="memoryText" class="hidden"></div>
+
+<button onclick="startFinal()">One Last Thing 💜</button>
+
+</div>
+
 <div id="finalScreen">
-    <div id="typewriter"></div>
+<div id="typewriter"></div>
 </div>
+
+<audio id="bgMusic" src="audio/song.mp3"></audio>
 
 <script>
+
 const memories = [
 "Back when everything was just starting… and somehow it already felt right 💜",
 "I didn’t know it then, but this was the beginning of something I’d never want to lose",
@@ -229,21 +180,8 @@ const memories = [
 ];
 
 function reveal() {
-    const secret = document.getElementById("secret");
-    const popup = document.getElementById("popup");
-    const gallery = document.querySelector(".gallery");
-
-    if (secret.classList.contains("hidden")) {
-        secret.classList.remove("hidden");
-        popup.style.display = "block";
-
-        setTimeout(() => {
-            popup.style.display = "none";
-            gallery.style.opacity = "1";
-        }, 2000);
-    } else {
-        secret.innerHTML = "Okay, now you're just having fun clicking things 😄💜";
-    }
+    document.getElementById("secret").classList.remove("hidden");
+    document.querySelector(".gallery").style.opacity = "1";
 }
 
 function showMemory(index) {
@@ -253,11 +191,27 @@ function showMemory(index) {
 }
 
 function startFinal() {
+
     const screen = document.getElementById("finalScreen");
     const element = document.getElementById("typewriter");
+    const music = document.getElementById("bgMusic");
 
     screen.style.display = "flex";
     element.innerHTML = "";
+
+    // 🎵 music fade-in
+    music.volume = 0;
+    music.play();
+
+    let volume = 0;
+    const fade = setInterval(() => {
+        if (volume < 0.5) {
+            volume += 0.05;
+            music.volume = volume;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
 
     const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
 
@@ -271,14 +225,15 @@ function startFinal() {
                 element.innerHTML += text.charAt(i);
             }
             i++;
-            setTimeout(type, 40);
+            setTimeout(type, 45); // slightly slower = better timing with song
         } else {
             element.innerHTML += '<span class="cursor">|</span>';
         }
     }
 
-    setTimeout(type, 500);
+    setTimeout(type, 1200); // delay before typing (lets music start)
 }
+
 </script>
 
 </body>
