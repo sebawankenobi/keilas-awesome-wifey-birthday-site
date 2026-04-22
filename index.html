@@ -2,116 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>A Curious Birthday 💜</title>
+<title>Birthday 💜</title>
 
 <style>
 body {
-    margin: 0;
-    font-family: 'Comic Sans MS', cursive;
-    background: radial-gradient(circle at top, #7b2cbf, #240046);
-    color: white;
-    text-align: center;
+    margin:0;
+    font-family:Arial;
+    background:#240046;
+    color:white;
+    text-align:center;
 }
 
 /* SPLASH */
 #splashScreen {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    cursor: pointer;
-    transition: opacity 0.8s;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
 }
 
-#mainContent {
-    display: none;
-}
-
-.container {
-    padding: 60px 20px;
-}
+#mainContent { display:none; }
 
 /* GALLERY */
 .gallery {
-    margin-top: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    opacity: 0;
-    transition: opacity 2s;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-top:20px;
 }
 
 .photo {
-    width: clamp(140px, 35vw, 240px);
-    height: clamp(140px, 35vw, 240px);
-    object-fit: cover;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-/* MEMORY */
-#memoryText {
-    margin-top: 20px;
-    padding: 12px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
-    display: none;
+    width:150px;
+    height:150px;
+    object-fit:cover;
+    cursor:pointer;
 }
 
 /* LIGHTBOX */
 #lightbox {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.9);
+    position:fixed;
+    top:0;
+    width:100%;
+    height:100%;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:black;
 }
 
 #lightbox img {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 15px;
+    max-width:90%;
+    max-height:90%;
 }
 
 .navBtn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    padding: 10px;
+    position:absolute;
+    top:50%;
+    font-size:2rem;
+    background:none;
+    border:none;
+    color:white;
 }
 
-#prevBtn { left: 20px; }
-#nextBtn { right: 20px; }
+#prevBtn { left:20px; }
+#nextBtn { right:20px; }
 
 /* FINAL */
 #finalScreen {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0,0,0,0.95);
+    position:fixed;
+    top:0;
+    width:100%;
+    height:100%;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:black;
 }
-
-#backBtn {
-    margin-top: 20px;
-}
-
-.cursor { animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 
@@ -124,18 +95,15 @@ body {
 
 <!-- MAIN -->
 <div id="mainContent">
-<div class="container">
 
 <h1>Down the Rabbit Hole 🐇</h1>
 
 <button onclick="reveal()">Do NOT Click This 👀</button>
 
 <div class="gallery" id="gallery"></div>
-<div id="memoryText"></div>
 
 <button onclick="startFinal()">One Last Thing 💜</button>
 
-</div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -146,11 +114,8 @@ body {
 </div>
 
 <!-- FINAL -->
-<div id="finalScreen" onclick="closeFinal(event)">
-<div>
-<div id="typewriter"></div>
-<button id="backBtn" onclick="closeFinal(event)">← Back</button>
-</div>
+<div id="finalScreen" onclick="closeFinal()">
+<h1>Happy Birthday 💜</h1>
 </div>
 
 <!-- AUDIO -->
@@ -159,7 +124,7 @@ body {
 
 <script>
 
-/* FULL IMAGE LIST */
+/* IMAGES */
 const images = [
 "images/20190801_163558.jpg",
 "images/20190823_171856.jpg",
@@ -188,9 +153,6 @@ const images = [
 "images/IMG_20230920_103736_268.jpg"
 ];
 
-/* MATCHING MEMORIES */
-const memories = images.map((_, i) => `Memory ${i+1} 💜`);
-
 let currentIndex = 0;
 
 /* BUILD GALLERY */
@@ -207,88 +169,49 @@ images.forEach((src, i) => {
 function startExperience() {
     const splash = document.getElementById("splashScreen");
     const main = document.getElementById("mainContent");
-    const alert = document.getElementById("alertSound");
 
-    alert.currentTime = 0;
-    alert.play().catch(()=>{});
+    document.getElementById("alertSound").play().catch(()=>{});
 
     main.style.display = "block";
-
-    splash.style.opacity = "0";
-    setTimeout(() => splash.style.display = "none", 800);
+    splash.style.display = "none";
 }
 
-/* REVEAL */
+/* MUSIC */
 function reveal() {
-    document.querySelector(".gallery").style.opacity = "1";
-
     const music = document.getElementById("bgMusic");
     music.currentTime = 15;
-    music.play();
-
-    showMemory(0);
+    music.play().catch(()=>{});
 }
 
 /* LIGHTBOX */
 function openLightbox(i) {
     currentIndex = i;
     document.getElementById("lightbox").style.display = "flex";
-    updateLightbox();
-}
-
-function updateLightbox() {
-    document.getElementById("lightboxImg").src = images[currentIndex];
-    showMemory(currentIndex);
+    document.getElementById("lightboxImg").src = images[i];
 }
 
 function nextImage(e) {
     e.stopPropagation();
     currentIndex = (currentIndex + 1) % images.length;
-    updateLightbox();
+    document.getElementById("lightboxImg").src = images[currentIndex];
 }
 
 function prevImage(e) {
     e.stopPropagation();
     currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateLightbox();
+    document.getElementById("lightboxImg").src = images[currentIndex];
 }
 
 document.getElementById("lightbox").onclick = () => {
     document.getElementById("lightbox").style.display = "none";
 };
 
-/* MEMORY */
-function showMemory(i) {
-    const box = document.getElementById("memoryText");
-    box.innerHTML = memories[i];
-    box.style.display = "block";
-}
-
 /* FINAL */
 function startFinal() {
     document.getElementById("finalScreen").style.display = "flex";
-
-    const text = "Out of all the strange things...\n\nI'm just glad I found you 💜";
-    const el = document.getElementById("typewriter");
-
-    el.innerHTML = "";
-    let i = 0;
-
-    function type() {
-        if (i < text.length) {
-            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
-            i++;
-            setTimeout(type, 40);
-        } else {
-            el.innerHTML += '<span class="cursor">|</span>';
-        }
-    }
-
-    type();
 }
 
-function closeFinal(e) {
-    e.stopPropagation();
+function closeFinal() {
     document.getElementById("finalScreen").style.display = "none";
 }
 
