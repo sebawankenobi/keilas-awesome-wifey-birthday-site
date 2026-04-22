@@ -69,6 +69,7 @@ button:hover {
 .gallery {
     margin-top: 40px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
     opacity: 0;
@@ -132,7 +133,7 @@ button:hover {
     <p>
         In a world full of madness, you're my favorite kind of strange.<br>
         Even stranger than a pineapple under the sea 🍍<br><br>
-        And I think these prove it…
+        I was going through these… and I realized something…
     </p>
 
     <button onclick="reveal()">Do NOT Click This 👀</button>
@@ -147,14 +148,33 @@ button:hover {
 
     <!-- Gallery -->
     <div class="gallery">
-        <img src="images/20190801_163558.jpg" class="photo" onclick="showMemory(0)">
-        <img src="images/pic2.jpg" class="photo" onclick="showMemory(1)">
-        <img src="images/pic3.jpg" class="photo" onclick="showMemory(2)">
+
+    <img src="images/FB_IMG_1557711830326.jpg" class="photo" onclick="showMemory(0)">
+    <img src="images/20190801_163558.jpg" class="photo" onclick="showMemory(1)">
+    <img src="images/20190823_171856.jpg" class="photo" onclick="showMemory(2)">
+    <img src="images/IMG-20191223-WA0015.jpg" class="photo" onclick="showMemory(3)">
+
+    <img src="images/20200912_201834.jpg" class="photo" onclick="showMemory(4)">
+    <img src="images/IMG-20210325-WA0000.jpg" class="photo" onclick="showMemory(5)">
+    <img src="images/IMG-20210423-WA0001.jpg" class="photo" onclick="showMemory(6)">
+    <img src="images/IMG-20210423-WA0018.jpg" class="photo" onclick="showMemory(7)">
+    <img src="images/IMG-20210423-WA0020.jpg" class="photo" onclick="showMemory(8)">
+    <img src="images/IMG-20210423-WA0037.jpg" class="photo" onclick="showMemory(9)">
+    <img src="images/IMG-20210423-WA0038.jpg" class="photo" onclick="showMemory(10)">
+
+    <img src="images/20230409_090603.jpg" class="photo" onclick="showMemory(11)">
+    <img src="images/20230423_144323.jpg" class="photo" onclick="showMemory(12)">
+    <img src="images/IMG_20230920_103736_268.jpg" class="photo" onclick="showMemory(13)">
+    <img src="images/IMG-20230906-WA0000.jpg" class="photo" onclick="showMemory(14)">
+
+    <img src="images/IMG-20251122-WA0003.jpg" class="photo" onclick="showMemory(15)">
+    <img src="images/IMG-20251122-WA0004.jpg" class="photo" onclick="showMemory(16)">
+
     </div>
 
     <div id="memoryText" class="hidden"></div>
 
-    <!-- Final Section -->
+    <!-- Final -->
     <div style="margin-top: 60px;">
         <button onclick="finalMessage()">One Last Thing 💜</button>
     </div>
@@ -172,9 +192,26 @@ button:hover {
 
 <script>
 const memories = [
-    "I don’t know if you remember this moment… but I do 💜",
-    "This is one of those times I wish I could relive again 😄",
-    "This right here… this is my favorite kind of us 🌼"
+"Back when everything was just starting… and somehow it already felt right 💜",
+"I didn’t know it then, but this was the beginning of something I’d never want to lose",
+"This day still lives in my head like it just happened",
+"Even the simple moments with you always meant more",
+
+"Somewhere around here… I realized I just really liked being with you 😄",
+"You always knew how to make everything more fun",
+"I don’t even remember what we were doing… just that I was happy",
+"This is one of those moments I wish I could pause forever",
+"You made ordinary days feel like something special",
+"I still laugh when I think about this 😂",
+"This is the kind of memory that just sticks with me",
+
+"By now… it wasn’t just fun anymore. It was real 💜",
+"You became my favorite person without me even noticing when it happened",
+"This version of us… this is my favorite",
+"I don’t say it enough, but moments like this mean everything to me",
+
+"After everything… it’s still you. It’s always been you 💜",
+"And somehow, it just keeps getting better"
 ];
 
 function reveal() {
