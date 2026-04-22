@@ -60,10 +60,9 @@ button:hover {
     transform: scale(1.1) rotate(3deg);
 }
 
-/* Hidden message */
+/* Hidden */
 .hidden {
     display: none;
-    margin-top: 20px;
 }
 
 /* Gallery */
@@ -72,20 +71,40 @@ button:hover {
     display: flex;
     justify-content: center;
     gap: 15px;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
 
 .photo {
-    width: 100px;
-    height: 100px;
-    background: #c77dff;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
     border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transform: rotate(5deg);
+    transition: 0.3s;
+    cursor: pointer;
 }
 
-/* SpongeBob-style popup */
+.photo:hover {
+    transform: scale(1.1) rotate(0deg);
+}
+
+/* Memory text */
+#memoryText {
+    margin-top: 25px;
+    font-size: 1.2em;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 15px;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Popup */
 .popup {
     position: fixed;
     bottom: 20px;
@@ -112,7 +131,8 @@ button:hover {
 
     <p>
         In a world full of madness, you're my favorite kind of strange.<br>
-        Even stranger than a pineapple under the sea 🍍
+        Even stranger than a pineapple under the sea 🍍<br><br>
+        And I think these prove it…
     </p>
 
     <button onclick="reveal()">Do NOT Click This 👀</button>
@@ -125,33 +145,65 @@ button:hover {
         </p>
     </div>
 
+    <!-- Gallery -->
     <div class="gallery">
-        <div class="photo">📸</div>
-        <div class="photo">📸</div>
-        <div class="photo">📸</div>
+        <img src="images/20190801_163558.jpg" class="photo" onclick="showMemory(0)">
+        <img src="images/pic2.jpg" class="photo" onclick="showMemory(1)">
+        <img src="images/pic3.jpg" class="photo" onclick="showMemory(2)">
+    </div>
+
+    <div id="memoryText" class="hidden"></div>
+
+    <!-- Final Section -->
+    <div style="margin-top: 60px;">
+        <button onclick="finalMessage()">One Last Thing 💜</button>
+    </div>
+
+    <div id="final" class="hidden">
+        <p style="margin-top:20px; font-size:1.3em;">
+            Out of all the strange, random, beautiful things in this world…<br><br>
+            I’m just really glad I found you.<br><br>
+            Happy Birthday 💜
+        </p>
     </div>
 </div>
 
 <div id="popup" class="popup">5 minutes later... ⏳</div>
 
 <script>
+const memories = [
+    "I don’t know if you remember this moment… but I do 💜",
+    "This is one of those times I wish I could relive again 😄",
+    "This right here… this is my favorite kind of us 🌼"
+];
+
 function reveal() {
     const secret = document.getElementById("secret");
     const popup = document.getElementById("popup");
+    const gallery = document.querySelector(".gallery");
 
     if (secret.classList.contains("hidden")) {
         secret.classList.remove("hidden");
-
-        // Show silly popup
         popup.style.display = "block";
 
         setTimeout(() => {
             popup.style.display = "none";
-        }, 3000);
+            gallery.style.opacity = "1";
+        }, 2000);
 
     } else {
         secret.innerHTML = "Okay, now you're just having fun clicking things 😄💜";
     }
+}
+
+function showMemory(index) {
+    const box = document.getElementById("memoryText");
+    box.innerHTML = memories[index];
+    box.classList.remove("hidden");
+}
+
+function finalMessage() {
+    document.getElementById("final").classList.remove("hidden");
 }
 </script>
 
