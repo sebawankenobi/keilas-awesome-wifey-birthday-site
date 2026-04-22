@@ -155,7 +155,8 @@ You make everything brighter, weirder, and better 💜🌼
 <div id="typewriter"></div>
 </div>
 
-<audio id="bgMusic" src="audio/song.mp3"></audio>
+<!-- AUDIO -->
+<audio id="bgMusic" src="audio/song.mp3" preload="auto"></audio>
 
 <script>
 
@@ -199,19 +200,29 @@ function startFinal() {
     screen.style.display = "flex";
     element.innerHTML = "";
 
-    // 🎵 music fade-in
+    // 🎵 FIXED AUDIO PLAY
+    music.currentTime = 0;
     music.volume = 0;
-    music.play();
 
-    let volume = 0;
-    const fade = setInterval(() => {
-        if (volume < 0.5) {
-            volume += 0.05;
-            music.volume = volume;
-        } else {
-            clearInterval(fade);
-        }
-    }, 200);
+    const playPromise = music.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+
+            let volume = 0;
+            const fade = setInterval(() => {
+                if (volume < 0.5) {
+                    volume += 0.05;
+                    music.volume = volume;
+                } else {
+                    clearInterval(fade);
+                }
+            }, 200);
+
+        }).catch(error => {
+            console.log("Playback failed:", error);
+        });
+    }
 
     const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
 
@@ -225,13 +236,13 @@ function startFinal() {
                 element.innerHTML += text.charAt(i);
             }
             i++;
-            setTimeout(type, 45); // slightly slower = better timing with song
+            setTimeout(type, 45);
         } else {
             element.innerHTML += '<span class="cursor">|</span>';
         }
     }
 
-    setTimeout(type, 1200); // delay before typing (lets music start)
+    setTimeout(type, 1200);
 }
 
 </script>
