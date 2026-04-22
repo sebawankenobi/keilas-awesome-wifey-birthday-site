@@ -27,48 +27,12 @@ body {
     cursor: pointer;
 }
 
-#splashContent {
-    text-align: center;
-    animation: fadeIn 2s ease;
-}
-
-#splashContent h1 { font-size: 2em; }
-#splashContent p { opacity: 0.7; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 /* MAIN */
 #mainContent { display: none; }
 
-.floating {
-    position: absolute;
-    font-size: 2rem;
-    animation: float 6s infinite ease-in-out;
-}
-
-.f1 { left: 10%; top: 20%; }
-.f2 { left: 80%; top: 30%; animation-delay: 2s; }
-.f3 { left: 50%; top: 10%; animation-delay: 4s; }
-
-@keyframes float {
-    50% { transform: translateY(-40px); }
-}
-
 .container { padding: 60px 20px; }
 
-button {
-    background-color: #ffb703;
-    color: #240046;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-/* Gallery */
+/* GALLERY */
 .gallery {
     margin-top: 40px;
     display: flex;
@@ -76,7 +40,7 @@ button {
     justify-content: center;
     gap: 20px;
     opacity: 0;
-    transition: opacity 2s ease;
+    transition: opacity 2s;
 }
 
 .photo {
@@ -85,17 +49,6 @@ button {
     object-fit: cover;
     border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.photo:hover { transform: scale(1.05); }
-
-#memoryText {
-    margin-top: 25px;
-    padding: 15px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    display: none;
 }
 
 /* LIGHTBOX */
@@ -121,25 +74,14 @@ button {
     z-index: -1;
 }
 
-#lightboxContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #lightbox img {
     max-width: 90%;
     max-height: 80%;
     border-radius: 15px;
-    opacity: 0;
-    transition: opacity 0.5s;
 }
-
-.show-img { opacity: 1 !important; }
 
 #lightboxCaption {
     margin-top: 15px;
-    max-width: 80%;
     background: rgba(0,0,0,0.5);
     padding: 10px;
     border-radius: 10px;
@@ -154,43 +96,32 @@ button {
     border: none;
     color: white;
     padding: 10px;
-    cursor: pointer;
 }
 
 #prevBtn { left: 20px; }
 #nextBtn { right: 20px; }
 
-#toggleSlideshow {
-    position: absolute;
-    bottom: 30px;
-}
-
-/* FINAL SCREEN */
+/* FINAL */
 #finalScreen {
     position: fixed;
-    top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10,0,20,0.95);
     display: none;
     justify-content: center;
     align-items: center;
-}
-
-#finalContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#backBtn {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.2);
-    color: white;
+    background: rgba(0,0,0,0.95);
 }
 
 .cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+button {
+    margin-top: 20px;
+    padding: 15px 25px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+}
 </style>
 </head>
 
@@ -198,42 +129,18 @@ button {
 
 <!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
-    <div id="splashContent">
-        <h1>Oh no, what might this surprise be?! 👀</h1>
-        <p>(go ahead… click it)</p>
-    </div>
+<h1>Oh no, what might this surprise be?! 👀</h1>
 </div>
 
 <!-- MAIN -->
 <div id="mainContent">
-
-<div class="floating f1">🌼</div>
-<div class="floating f2">🌀</div>
-<div class="floating f3">💜</div>
-
 <div class="container">
 
 <h1>Down the Rabbit Hole 🐇</h1>
-<h2>It’s Your Birthday 💜</h2>
-
-<p>
-In a world full of madness, you're my favorite kind of strange.<br>
-Even stranger than a pineapple under the sea 🍍<br><br>
-I was going through these… and I realized something…
-</p>
 
 <button onclick="reveal()">Do NOT Click This 👀</button>
 
-<div id="secret" style="display:none;">
-<p>
-You clicked it anyway 😄<br><br>
-That’s why I love you.<br>
-You make everything brighter, weirder, and better 💜🌼
-</p>
-</div>
-
 <div class="gallery" id="gallery"></div>
-<div id="memoryText"></div>
 
 <button onclick="startFinal()">One Last Thing 💜</button>
 
@@ -243,19 +150,18 @@ You make everything brighter, weirder, and better 💜🌼
 <!-- LIGHTBOX -->
 <div id="lightbox">
 <button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
-<div id="lightboxContent">
+<div>
 <img id="lightboxImg">
 <div id="lightboxCaption"></div>
 </div>
 <button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
-<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
 </div>
 
 <!-- FINAL -->
 <div id="finalScreen" onclick="closeFinal(event)">
-<div id="finalContent">
+<div>
 <div id="typewriter"></div>
-<button id="backBtn" onclick="closeFinal(event)">← Back</button>
+<button onclick="closeFinal(event)">← Back</button>
 </div>
 </div>
 
@@ -264,9 +170,9 @@ You make everything brighter, weirder, and better 💜🌼
 <script>
 
 /* SPLASH */
-function startExperience() {
-    document.getElementById("splashScreen").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
+function startExperience(){
+    document.getElementById("splashScreen").style.display="none";
+    document.getElementById("mainContent").style.display="block";
 }
 
 /* DATA */
@@ -299,135 +205,108 @@ const images = [
 ];
 
 const memories = [
-"Back when everything was just starting… and somehow it already felt right 💜",
-"I didn’t know it then, but this was the beginning of something I’d never want to lose",
-"This day still lives in my head like it just happened",
-"By now… it wasn’t just fun anymore. It was real 💜",
-"You became my favorite person without me even noticing when it happened",
-"Somewhere around here… I realized I just really liked being with you 😄",
-"You always knew how to make everything more fun",
-"I don’t even remember what we were doing… just that I was happy",
-"This is one of those moments I wish I could pause forever",
-"You made ordinary days feel like something special",
-"I still laugh when I think about this 😂",
-"This is the kind of memory that just sticks with me",
-"Moments like this remind me why I love you",
-"This version of us… this is my favorite",
-"Even the simple moments with you always meant more",
-"You always made everything feel lighter",
-"I don’t say it enough, but this meant everything to me",
-"You made ordinary days unforgettable",
-"I still think about this one a lot",
-"You’ve always been my favorite person",
-"Every memory with you feels like this",
-"And somehow… it just keeps getting better 💜",
-"Through everything, it’s still you",
-"It’s always been you 💜",
+"Back when everything started 💜",
+"This was just the beginning",
+"I still remember this clearly",
+"Things started feeling real",
+"You became my favorite person",
+"I just liked being with you",
+"You made everything fun",
+"I was just happy here",
+"I wish I could pause this moment",
+"You made days special",
+"I still laugh at this 😂",
+"This memory sticks with me",
+"This reminds me why I love you",
+"My favorite version of us",
+"Even simple moments mattered",
+"You made everything lighter",
+"This meant everything to me",
+"You made everything unforgettable",
+"I think about this one a lot",
+"You've always been my person",
+"Every memory feels like this",
+"It just keeps getting better",
+"It's still you",
+"It's always been you 💜",
 "And it always will be"
 ];
 
 let currentIndex = 0;
-let slideshowInterval = null;
 
 /* BUILD */
 const gallery = document.getElementById("gallery");
-images.forEach((src, i) => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.className = "photo";
-    img.onclick = () => openLightbox(i);
+images.forEach((src,i)=>{
+    const img=document.createElement("img");
+    img.src=src;
+    img.className="photo";
+    img.onclick=()=>openLightbox(i);
     gallery.appendChild(img);
 });
 
-/* MUSIC START */
-function reveal() {
-    document.getElementById("secret").style.display = "block";
-    document.querySelector(".gallery").style.opacity = "1";
-
-    const music = document.getElementById("bgMusic");
-    music.currentTime = 15;
-    music.play();
+/* REVEAL */
+function reveal(){
+    document.querySelector(".gallery").style.opacity="1";
+    const music=document.getElementById("bgMusic");
+    music.currentTime=15;
+    music.play().catch(()=>{});
 }
 
 /* LIGHTBOX */
-function openLightbox(i) {
-    currentIndex = i;
-    document.getElementById("lightbox").style.display = "flex";
+function openLightbox(i){
+    currentIndex=i;
+    document.getElementById("lightbox").style.display="flex";
     updateLightbox();
 }
 
-function updateLightbox() {
-    const img = document.getElementById("lightboxImg");
-    const caption = document.getElementById("lightboxCaption");
-
-    img.classList.remove("show-img");
-
-    setTimeout(() => {
-        img.src = images[currentIndex];
-        caption.innerHTML = memories[currentIndex];
-        img.classList.add("show-img");
-    }, 100);
-
-    document.getElementById("lightbox").style.backgroundImage = `url(${images[currentIndex]})`;
+function updateLightbox(){
+    document.getElementById("lightboxImg").src=images[currentIndex];
+    document.getElementById("lightboxCaption").innerHTML=memories[currentIndex];
+    document.getElementById("lightbox").style.backgroundImage=`url(${images[currentIndex]})`;
 }
 
-function nextImage(e) {
+function nextImage(e){
     e.stopPropagation();
-    currentIndex = (currentIndex + 1) % images.length;
+    currentIndex=(currentIndex+1)%images.length;
     updateLightbox();
 }
 
-function prevImage(e) {
+function prevImage(e){
     e.stopPropagation();
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    currentIndex=(currentIndex-1+images.length)%images.length;
     updateLightbox();
 }
 
-function toggleSlideshow(e) {
-    e.stopPropagation();
-    const btn = document.getElementById("toggleSlideshow");
-
-    if (slideshowInterval) {
-        clearInterval(slideshowInterval);
-        slideshowInterval = null;
-        btn.innerHTML = "▶";
-    } else {
-        slideshowInterval = setInterval(() => nextImage(e), 3000);
-        btn.innerHTML = "⏸";
-    }
-}
-
-document.getElementById("lightbox").onclick = () => {
-    document.getElementById("lightbox").style.display = "none";
-    clearInterval(slideshowInterval);
+document.getElementById("lightbox").onclick=()=>{
+    document.getElementById("lightbox").style.display="none";
 };
 
 /* FINAL */
-function startFinal() {
-    document.getElementById("finalScreen").style.display = "flex";
+function startFinal(){
+    document.getElementById("finalScreen").style.display="flex";
 
-    const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
-    const el = document.getElementById("typewriter");
+    const text="Out of all the strange, random, beautiful things...\n\nI’m just really glad I found you 💜";
+    const el=document.getElementById("typewriter");
 
-    el.innerHTML = "";
-    let i = 0;
+    el.innerHTML="";
+    let i=0;
 
-    function type() {
-        if (i < text.length) {
-            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+    function type(){
+        if(i<text.length){
+            el.innerHTML+=text[i]==="\n"?"<br>":text[i];
             i++;
-            setTimeout(type, 45);
-        } else {
-            el.innerHTML += '<span class="cursor">|</span>';
+            setTimeout(type,40);
+        }else{
+            el.innerHTML+='<span class="cursor">|</span>';
         }
     }
 
-    setTimeout(type, 1000);
+    type();
 }
 
-function closeFinal(e) {
+function closeFinal(e){
     e.stopPropagation();
-    document.getElementById("finalScreen").style.display = "none";
+    document.getElementById("finalScreen").style.display="none";
 }
 
 </script>
