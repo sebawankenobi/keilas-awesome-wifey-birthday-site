@@ -32,13 +32,8 @@ body {
     animation: fadeIn 2s ease;
 }
 
-#splashContent h1 {
-    font-size: 2em;
-}
-
-#splashContent p {
-    opacity: 0.7;
-}
+#splashContent h1 { font-size: 2em; }
+#splashContent p { opacity: 0.7; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -59,9 +54,7 @@ body {
 .f3 { left: 50%; top: 10%; animation-delay: 4s; }
 
 @keyframes float {
-    0% { transform: translateY(0); }
     50% { transform: translateY(-40px); }
-    100% { transform: translateY(0); }
 }
 
 .container { padding: 60px 20px; }
@@ -197,7 +190,6 @@ button {
 }
 
 .cursor { animation: blink 1s infinite; }
-
 @keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
@@ -278,8 +270,61 @@ function startExperience() {
 }
 
 /* DATA */
-const images = [ /* keep same list */ ];
-const memories = [ /* keep same list */ ];
+const images = [
+"images/20190801_163558.jpg",
+"images/20190823_171856.jpg",
+"images/20200912_201834.jpg",
+"images/20230409_090603.jpg",
+"images/20230423_144323.jpg",
+"images/FB_IMG_1557711830326.jpg",
+"images/FB_IMG_1566611458309.jpg",
+"images/FB_IMG_1587683608211.jpg",
+"images/FB_IMG_1776693720360.jpg",
+"images/FB_IMG_1776885598001.jpg",
+"images/FB_IMG_1776885609789.jpg",
+"images/FB_IMG_1776885622286.jpg",
+"images/FB_IMG_1776885629939.jpg",
+"images/FB_IMG_1776885639302.jpg",
+"images/IMG-20191223-WA0015.jpg",
+"images/IMG-20210325-WA0000.jpg",
+"images/IMG-20210423-WA0001.jpg",
+"images/IMG-20210423-WA0018.jpg",
+"images/IMG-20210423-WA0020.jpg",
+"images/IMG-20210423-WA0037.jpg",
+"images/IMG-20210423-WA0038.jpg",
+"images/IMG-20230906-WA0000.jpg",
+"images/IMG-20251122-WA0003.jpg",
+"images/IMG-20251122-WA0004.jpg",
+"images/IMG_20230920_103736_268.jpg"
+];
+
+const memories = [
+"Back when everything was just starting… and somehow it already felt right 💜",
+"I didn’t know it then, but this was the beginning of something I’d never want to lose",
+"This day still lives in my head like it just happened",
+"By now… it wasn’t just fun anymore. It was real 💜",
+"You became my favorite person without me even noticing when it happened",
+"Somewhere around here… I realized I just really liked being with you 😄",
+"You always knew how to make everything more fun",
+"I don’t even remember what we were doing… just that I was happy",
+"This is one of those moments I wish I could pause forever",
+"You made ordinary days feel like something special",
+"I still laugh when I think about this 😂",
+"This is the kind of memory that just sticks with me",
+"Moments like this remind me why I love you",
+"This version of us… this is my favorite",
+"Even the simple moments with you always meant more",
+"You always made everything feel lighter",
+"I don’t say it enough, but this meant everything to me",
+"You made ordinary days unforgettable",
+"I still think about this one a lot",
+"You’ve always been my favorite person",
+"Every memory with you feels like this",
+"And somehow… it just keeps getting better 💜",
+"Through everything, it’s still you",
+"It’s always been you 💜",
+"And it always will be"
+];
 
 let currentIndex = 0;
 let slideshowInterval = null;
