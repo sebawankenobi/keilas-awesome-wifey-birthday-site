@@ -32,6 +32,19 @@ body {
 
 .container { padding: 60px 20px; }
 
+button {
+    background-color: #ffb703;
+    color: #240046;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+button:hover { transform: scale(1.05); }
+
 /* GALLERY */
 .gallery {
     margin-top: 40px;
@@ -40,7 +53,7 @@ body {
     justify-content: center;
     gap: 20px;
     opacity: 0;
-    transition: opacity 2s;
+    transition: opacity 2s ease;
 }
 
 .photo {
@@ -50,6 +63,8 @@ body {
     border-radius: 20px;
     cursor: pointer;
 }
+
+.photo:hover { transform: scale(1.05); }
 
 /* LIGHTBOX */
 #lightbox {
@@ -74,6 +89,12 @@ body {
     z-index: -1;
 }
 
+#lightboxContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #lightbox img {
     max-width: 90%;
     max-height: 80%;
@@ -82,6 +103,7 @@ body {
 
 #lightboxCaption {
     margin-top: 15px;
+    max-width: 80%;
     background: rgba(0,0,0,0.5);
     padding: 10px;
     border-radius: 10px;
@@ -96,32 +118,31 @@ body {
     border: none;
     color: white;
     padding: 10px;
+    cursor: pointer;
 }
 
 #prevBtn { left: 20px; }
 #nextBtn { right: 20px; }
 
+#toggleSlideshow {
+    position: absolute;
+    bottom: 30px;
+}
+
 /* FINAL */
 #finalScreen {
     position: fixed;
+    top: 0;
     width: 100%;
     height: 100%;
+    background: rgba(10,0,20,0.95);
     display: none;
     justify-content: center;
     align-items: center;
-    background: rgba(0,0,0,0.95);
 }
 
 .cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-
-button {
-    margin-top: 20px;
-    padding: 15px 25px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-}
 </style>
 </head>
 
@@ -137,6 +158,7 @@ button {
 <div class="container">
 
 <h1>Down the Rabbit Hole 🐇</h1>
+<h2>It’s Your Birthday 💜</h2>
 
 <button onclick="reveal()">Do NOT Click This 👀</button>
 
@@ -150,11 +172,12 @@ button {
 <!-- LIGHTBOX -->
 <div id="lightbox">
 <button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
-<div>
+<div id="lightboxContent">
 <img id="lightboxImg">
 <div id="lightboxCaption"></div>
 </div>
 <button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
+<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
 </div>
 
 <!-- FINAL -->
@@ -169,13 +192,11 @@ button {
 
 <script>
 
-/* SPLASH */
 function startExperience(){
     document.getElementById("splashScreen").style.display="none";
     document.getElementById("mainContent").style.display="block";
 }
 
-/* DATA */
 const images = [
 "images/20190801_163558.jpg",
 "images/20190823_171856.jpg",
@@ -233,8 +254,8 @@ const memories = [
 ];
 
 let currentIndex = 0;
+let slideshowInterval = null;
 
-/* BUILD */
 const gallery = document.getElementById("gallery");
 images.forEach((src,i)=>{
     const img=document.createElement("img");
@@ -244,7 +265,6 @@ images.forEach((src,i)=>{
     gallery.appendChild(img);
 });
 
-/* REVEAL */
 function reveal(){
     document.querySelector(".gallery").style.opacity="1";
     const music=document.getElementById("bgMusic");
@@ -252,7 +272,6 @@ function reveal(){
     music.play().catch(()=>{});
 }
 
-/* LIGHTBOX */
 function openLightbox(i){
     currentIndex=i;
     document.getElementById("lightbox").style.display="flex";
@@ -277,11 +296,25 @@ function prevImage(e){
     updateLightbox();
 }
 
+function toggleSlideshow(e){
+    e.stopPropagation();
+    const btn=document.getElementById("toggleSlideshow");
+
+    if(slideshowInterval){
+        clearInterval(slideshowInterval);
+        slideshowInterval=null;
+        btn.innerHTML="▶";
+    }else{
+        slideshowInterval=setInterval(()=>nextImage(e),3000);
+        btn.innerHTML="⏸";
+    }
+}
+
 document.getElementById("lightbox").onclick=()=>{
     document.getElementById("lightbox").style.display="none";
+    clearInterval(slideshowInterval);
 };
 
-/* FINAL */
 function startFinal(){
     document.getElementById("finalScreen").style.display="flex";
 
