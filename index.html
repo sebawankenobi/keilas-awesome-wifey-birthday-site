@@ -11,7 +11,6 @@ body {
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
-    overflow-x: hidden;
 }
 
 /* SPLASH */
@@ -25,180 +24,73 @@ body {
     align-items: center;
     z-index: 2000;
     cursor: pointer;
+    transition: opacity 0.8s ease;
 }
 
-#splashContent {
-    text-align: center;
-    animation: fadeIn 2s ease;
+#mainContent {
+    display: none;
 }
 
-#splashContent h1 {
-    font-size: 2em;
-}
-
-#splashContent p {
-    opacity: 0.7;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* MAIN */
-#mainContent { display: none; }
-
+/* FLOATING */
 .floating {
     position: absolute;
     font-size: 2rem;
     animation: float 6s infinite ease-in-out;
 }
 
-.f1 { left: 10%; top: 20%; }
-.f2 { left: 80%; top: 30%; animation-delay: 2s; }
-.f3 { left: 50%; top: 10%; animation-delay: 4s; }
-
 @keyframes float {
-    0% { transform: translateY(0); }
     50% { transform: translateY(-40px); }
-    100% { transform: translateY(0); }
 }
 
-.container { padding: 60px 20px; }
-
-button {
-    background-color: #ffb703;
-    color: #240046;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-/* Gallery */
+/* GALLERY */
 .gallery {
     margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     opacity: 0;
-    transition: opacity 2s ease;
+    transition: opacity 2s;
 }
 
 .photo {
-    width: clamp(140px, 35vw, 240px);
-    height: clamp(140px, 35vw, 240px);
+    width: clamp(140px, 35vw, 220px);
+    height: clamp(140px, 35vw, 220px);
     object-fit: cover;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.photo:hover { transform: scale(1.05); }
-
-#memoryText {
-    margin-top: 25px;
-    padding: 15px;
-    background: rgba(255,255,255,0.1);
     border-radius: 15px;
-    display: none;
+    cursor: pointer;
 }
 
 /* LIGHTBOX */
 #lightbox {
     position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-#lightbox::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(25px) brightness(0.4);
-    z-index: -1;
-}
-
-#lightboxContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    top:0;
+    width:100%;
+    height:100%;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
 }
 
 #lightbox img {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 15px;
-    opacity: 0;
-    transition: opacity 0.5s;
+    max-width:90%;
+    max-height:80%;
+    border-radius:15px;
 }
 
-.show-img { opacity: 1 !important; }
-
-#lightboxCaption {
-    margin-top: 15px;
-    max-width: 80%;
-    background: rgba(0,0,0,0.5);
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.navBtn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-}
-
-#prevBtn { left: 20px; }
-#nextBtn { right: 20px; }
-
-#toggleSlideshow {
-    position: absolute;
-    bottom: 30px;
-}
-
-/* FINAL SCREEN */
+/* FINAL */
 #finalScreen {
     position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10,0,20,0.95);
-    display: none;
-    justify-content: center;
-    align-items: center;
+    top:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
 }
 
-#finalContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#backBtn {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.2);
-    color: white;
-}
-
-.cursor { animation: blink 1s infinite; }
-
-@keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 
@@ -206,42 +98,19 @@ button {
 
 <!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
-    <div id="splashContent">
-        <h1>Oh no, what might this surprise be?! 👀</h1>
-        <p>(go ahead… click it)</p>
-    </div>
+    <h1>Oh no, what might this surprise be?! 👀</h1>
 </div>
 
 <!-- MAIN -->
 <div id="mainContent">
 
-<div class="floating f1">🌼</div>
-<div class="floating f2">🌀</div>
-<div class="floating f3">💜</div>
-
 <div class="container">
 
 <h1>Down the Rabbit Hole 🐇</h1>
-<h2>It’s Your Birthday 💜</h2>
-
-<p>
-In a world full of madness, you're my favorite kind of strange.<br>
-Even stranger than a pineapple under the sea 🍍<br><br>
-I was going through these… and I realized something…
-</p>
 
 <button onclick="reveal()">Do NOT Click This 👀</button>
 
-<div id="secret" style="display:none;">
-<p>
-You clicked it anyway 😄<br><br>
-That’s why I love you.<br>
-You make everything brighter, weirder, and better 💜🌼
-</p>
-</div>
-
 <div class="gallery" id="gallery"></div>
-<div id="memoryText"></div>
 
 <button onclick="startFinal()">One Last Thing 💜</button>
 
@@ -249,43 +118,30 @@ You make everything brighter, weirder, and better 💜🌼
 </div>
 
 <!-- LIGHTBOX -->
-<div id="lightbox">
-<button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
-<div id="lightboxContent">
-<img id="lightboxImg">
-<div id="lightboxCaption"></div>
-</div>
-<button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
-<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg">
 </div>
 
 <!-- FINAL -->
-<div id="finalScreen" onclick="closeFinal(event)">
-<div id="finalContent">
-<div id="typewriter"></div>
-<button id="backBtn" onclick="closeFinal(event)">← Back</button>
-</div>
+<div id="finalScreen" onclick="closeFinal()">
+    <div id="typewriter"></div>
 </div>
 
+<!-- AUDIO -->
 <audio id="bgMusic" src="audio/song.mp3"></audio>
+<audio id="alertSound" src="audio/alert.mp3"></audio>
 
 <script>
 
-/* SPLASH */
-function startExperience() {
-    document.getElementById("splashScreen").style.display = "none";
-    document.getElementById("mainContent").style.display = "block";
-}
-
 /* DATA */
-const images = [ /* keep same list */ ];
-const memories = [ /* keep same list */ ];
+const images = [
+"images/20190801_163558.jpg",
+"images/20190823_171856.jpg"
+];
 
-let currentIndex = 0;
-let slideshowInterval = null;
-
-/* BUILD */
 const gallery = document.getElementById("gallery");
+
+/* BUILD GALLERY */
 images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
@@ -294,9 +150,29 @@ images.forEach((src, i) => {
     gallery.appendChild(img);
 });
 
-/* MUSIC START */
+/* SPLASH FIX */
+function startExperience() {
+    const splash = document.getElementById("splashScreen");
+    const main = document.getElementById("mainContent");
+    const alert = document.getElementById("alertSound");
+
+    // PLAY SOUND
+    alert.currentTime = 0;
+    alert.play().catch(()=>{});
+
+    // SHOW CONTENT FIRST (KEY FIX)
+    main.style.display = "block";
+
+    // FADE OUT SPLASH
+    splash.style.opacity = "0";
+
+    setTimeout(() => {
+        splash.style.display = "none";
+    }, 800);
+}
+
+/* MUSIC */
 function reveal() {
-    document.getElementById("secret").style.display = "block";
     document.querySelector(".gallery").style.opacity = "1";
 
     const music = document.getElementById("bgMusic");
@@ -306,82 +182,20 @@ function reveal() {
 
 /* LIGHTBOX */
 function openLightbox(i) {
-    currentIndex = i;
     document.getElementById("lightbox").style.display = "flex";
-    updateLightbox();
+    document.getElementById("lightboxImg").src = images[i];
 }
 
-function updateLightbox() {
-    const img = document.getElementById("lightboxImg");
-    const caption = document.getElementById("lightboxCaption");
-
-    img.classList.remove("show-img");
-
-    setTimeout(() => {
-        img.src = images[currentIndex];
-        caption.innerHTML = memories[currentIndex];
-        img.classList.add("show-img");
-    }, 100);
-
-    document.getElementById("lightbox").style.backgroundImage = `url(${images[currentIndex]})`;
-}
-
-function nextImage(e) {
-    e.stopPropagation();
-    currentIndex = (currentIndex + 1) % images.length;
-    updateLightbox();
-}
-
-function prevImage(e) {
-    e.stopPropagation();
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateLightbox();
-}
-
-function toggleSlideshow(e) {
-    e.stopPropagation();
-    const btn = document.getElementById("toggleSlideshow");
-
-    if (slideshowInterval) {
-        clearInterval(slideshowInterval);
-        slideshowInterval = null;
-        btn.innerHTML = "▶";
-    } else {
-        slideshowInterval = setInterval(() => nextImage(e), 3000);
-        btn.innerHTML = "⏸";
-    }
-}
-
-document.getElementById("lightbox").onclick = () => {
+function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
-    clearInterval(slideshowInterval);
-};
+}
 
 /* FINAL */
 function startFinal() {
     document.getElementById("finalScreen").style.display = "flex";
-
-    const text = "Out of all the strange, random, beautiful things in this world...\n\nI’m just really glad I found you.\n\nHappy Birthday 💜";
-    const el = document.getElementById("typewriter");
-
-    el.innerHTML = "";
-    let i = 0;
-
-    function type() {
-        if (i < text.length) {
-            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
-            i++;
-            setTimeout(type, 45);
-        } else {
-            el.innerHTML += '<span class="cursor">|</span>';
-        }
-    }
-
-    setTimeout(type, 1000);
 }
 
-function closeFinal(e) {
-    e.stopPropagation();
+function closeFinal() {
     document.getElementById("finalScreen").style.display = "none";
 }
 
