@@ -41,7 +41,7 @@ button {
     cursor: pointer;
     font-family: 'Comic Sans MS', cursive;
     font-size: 1rem;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 button:hover { transform: scale(1.05); }
 
@@ -62,8 +62,8 @@ button:hover { transform: scale(1.05); }
     object-fit: cover;
     border-radius: 20px;
     cursor: pointer;
+    transition: 0.3s;
 }
-
 .photo:hover { transform: scale(1.05); }
 
 /* LIGHTBOX */
@@ -124,11 +124,6 @@ button:hover { transform: scale(1.05); }
 #prevBtn { left: 20px; }
 #nextBtn { right: 20px; }
 
-#toggleSlideshow {
-    position: absolute;
-    bottom: 30px;
-}
-
 /* FINAL */
 #finalScreen {
     position: fixed;
@@ -148,12 +143,10 @@ button:hover { transform: scale(1.05); }
 
 <body>
 
-<!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
 <h1>Oh no, what might this surprise be?! 👀</h1>
 </div>
 
-<!-- MAIN -->
 <div id="mainContent">
 <div class="container">
 
@@ -169,7 +162,6 @@ button:hover { transform: scale(1.05); }
 </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
 <button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
 <div id="lightboxContent">
@@ -177,10 +169,8 @@ button:hover { transform: scale(1.05); }
 <div id="lightboxCaption"></div>
 </div>
 <button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
-<button id="toggleSlideshow" onclick="toggleSlideshow(event)">▶</button>
 </div>
 
-<!-- FINAL -->
 <div id="finalScreen" onclick="closeFinal(event)">
 <div>
 <div id="typewriter"></div>
@@ -225,36 +215,9 @@ const images = [
 "images/IMG_20230920_103736_268.jpg"
 ];
 
-const memories = [
-"Back when everything started 💜",
-"This was just the beginning",
-"I still remember this clearly",
-"Things started feeling real",
-"You became my favorite person",
-"I just liked being with you",
-"You made everything fun",
-"I was just happy here",
-"I wish I could pause this moment",
-"You made days special",
-"I still laugh at this 😂",
-"This memory sticks with me",
-"This reminds me why I love you",
-"My favorite version of us",
-"Even simple moments mattered",
-"You made everything lighter",
-"This meant everything to me",
-"You made everything unforgettable",
-"I think about this one a lot",
-"You've always been my person",
-"Every memory feels like this",
-"It just keeps getting better",
-"It's still you",
-"It's always been you 💜",
-"And it always will be"
-];
+const memories = images.map((_, i) => `Memory ${i+1} 💜`);
 
 let currentIndex = 0;
-let slideshowInterval = null;
 
 const gallery = document.getElementById("gallery");
 images.forEach((src,i)=>{
@@ -296,23 +259,8 @@ function prevImage(e){
     updateLightbox();
 }
 
-function toggleSlideshow(e){
-    e.stopPropagation();
-    const btn=document.getElementById("toggleSlideshow");
-
-    if(slideshowInterval){
-        clearInterval(slideshowInterval);
-        slideshowInterval=null;
-        btn.innerHTML="▶";
-    }else{
-        slideshowInterval=setInterval(()=>nextImage(e),3000);
-        btn.innerHTML="⏸";
-    }
-}
-
 document.getElementById("lightbox").onclick=()=>{
     document.getElementById("lightbox").style.display="none";
-    clearInterval(slideshowInterval);
 };
 
 function startFinal(){
@@ -329,8 +277,6 @@ function startFinal(){
             el.innerHTML+=text[i]==="\n"?"<br>":text[i];
             i++;
             setTimeout(type,40);
-        }else{
-            el.innerHTML+='<span class="cursor">|</span>';
         }
     }
 
