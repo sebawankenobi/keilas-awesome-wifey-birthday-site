@@ -11,7 +11,6 @@ body {
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
-    overflow-x: hidden;
 }
 
 /* SPLASH */
@@ -41,24 +40,20 @@ button {
     cursor: pointer;
     font-family: 'Comic Sans MS', cursive;
     font-size: 1rem;
-    transition: 0.2s ease;
 }
-button:hover { transform: scale(1.05); }
 
-/* GALLERY (hidden by default again) */
+/* GALLERY (completely hidden at start) */
 .gallery {
+    display: none;
     margin-top: 40px;
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    opacity: 0;
-    transition: opacity 1.5s ease;
 }
 
-/* 👇 THIS makes it appear safely */
+/* reveal animation */
 .gallery.show {
-    opacity: 1;
+    display: flex;
 }
 
 .photo {
@@ -66,68 +61,16 @@ button:hover { transform: scale(1.05); }
     height: clamp(140px, 35vw, 240px);
     object-fit: cover;
     border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.photo:hover { transform: scale(1.05); }
-
-/* LIGHTBOX */
-#lightbox {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
 }
 
-#lightbox::before {
-    content: "";
-    position: absolute;
-    width: 120%;
-    height: 120%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(25px) brightness(0.4);
-    z-index: -1;
+/* animated appearance */
+.photo.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
-
-#lightboxContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#lightbox img {
-    max-width: 90%;
-    max-height: 80%;
-    border-radius: 15px;
-}
-
-#lightboxCaption {
-    margin-top: 15px;
-    max-width: 80%;
-    background: rgba(0,0,0,0.5);
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.navBtn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-}
-
-#prevBtn { left: 20px; }
-#nextBtn { right: 20px; }
 
 /* FINAL */
 #finalScreen {
@@ -151,6 +94,7 @@ button:hover { transform: scale(1.05); }
 
 .cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
 </style>
 </head>
 
@@ -173,15 +117,6 @@ button:hover { transform: scale(1.05); }
 <button onclick="startFinal()">One Last Thing 💜</button>
 
 </div>
-</div>
-
-<div id="lightbox">
-<button id="prevBtn" class="navBtn" onclick="prevImage(event)">❮</button>
-<div id="lightboxContent">
-<img id="lightboxImg">
-<div id="lightboxCaption"></div>
-</div>
-<button id="nextBtn" class="navBtn" onclick="nextImage(event)">❯</button>
 </div>
 
 <div id="finalScreen" onclick="closeFinal(event)">
@@ -228,22 +163,24 @@ const images = [
 "images/IMG_20230920_103736_268.jpg"
 ];
 
-const memories = images.map((_, i) => `Memory ${i+1} 💜`);
-
-let currentIndex = 0;
-
 const gallery = document.getElementById("gallery");
-images.forEach((src,i)=>{
-    const img=document.createElement("img");
-    img.src=src;
-    img.className="photo";
-    img.onclick=()=>openLightbox(i);
-    gallery.appendChild(img);
-});
+
+/* DO NOT BUILD GALLERY UNTIL BUTTON CLICK */
 
 function reveal(){
-    // 👇 THIS is the reliable fix
-    document.getElementById("gallery").classList.add("show");
+
+    gallery.classList.add("show");
+
+    images.forEach((src,i)=>{
+        const img=document.createElement("img");
+        img.src=src;
+        img.className="photo";
+        gallery.appendChild(img);
+
+        setTimeout(()=>{
+            img.classList.add("visible");
+        }, i * 120);
+    });
 
     const music=document.getElementById("bgMusic");
     try {
@@ -251,34 +188,6 @@ function reveal(){
         music.play();
     } catch(e){}
 }
-
-function openLightbox(i){
-    currentIndex=i;
-    document.getElementById("lightbox").style.display="flex";
-    updateLightbox();
-}
-
-function updateLightbox(){
-    document.getElementById("lightboxImg").src=images[currentIndex];
-    document.getElementById("lightboxCaption").innerHTML=memories[currentIndex];
-    document.getElementById("lightbox").style.backgroundImage=`url(${images[currentIndex]})`;
-}
-
-function nextImage(e){
-    e.stopPropagation();
-    currentIndex=(currentIndex+1)%images.length;
-    updateLightbox();
-}
-
-function prevImage(e){
-    e.stopPropagation();
-    currentIndex=(currentIndex-1+images.length)%images.length;
-    updateLightbox();
-}
-
-document.getElementById("lightbox").onclick=()=>{
-    document.getElementById("lightbox").style.display="none";
-};
 
 function startFinal(){
     document.getElementById("finalScreen").style.display="flex";
