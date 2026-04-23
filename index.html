@@ -10,10 +10,19 @@
 html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
     font-family: 'Quicksand', sans-serif;
-    background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
+}
+
+/* 🔥 GLOBAL BACKGROUND FIX (prevents white anywhere) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+    z-index: -1;
 }
 
 /* SPLASH */
@@ -51,18 +60,13 @@ button {
     position: fixed;
     inset: 0;
     z-index: 999;
-
-    /* 🔥 THIS IS THE ONLY FIX */
     background: radial-gradient(circle at top, #7b2cbf, #240046);
-
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-#slideshow.active {
-    display: flex;
-}
+#slideshow.active { display: flex; }
 
 .slide img {
     max-width: 92%;
@@ -97,6 +101,7 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
+    z-index: 1500;
 }
 
 #finalBtn.show { display: block; }
@@ -109,7 +114,7 @@ button {
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 2000;
 }
 
 #typewriter {
