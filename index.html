@@ -62,7 +62,6 @@ button:hover { transform: scale(1.05); }
     object-fit: cover;
     border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
 }
 .photo:hover { transform: scale(1.05); }
 
@@ -142,10 +141,7 @@ button:hover { transform: scale(1.05); }
     align-items: center;
 }
 
-/* ✨ NEW SPACING FIX */
-#backBtn {
-    margin-top: 40px;
-}
+#backBtn { margin-top: 40px; }
 
 .cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -198,7 +194,34 @@ function startExperience(){
     document.getElementById("mainContent").style.display="block";
 }
 
-const images = [ /* unchanged */ ];
+const images = [
+"images/20190801_163558.jpg",
+"images/20190823_171856.jpg",
+"images/20200912_201834.jpg",
+"images/20230409_090603.jpg",
+"images/20230423_144323.jpg",
+"images/FB_IMG_1557711830326.jpg",
+"images/FB_IMG_1566611458309.jpg",
+"images/FB_IMG_1587683608211.jpg",
+"images/FB_IMG_1776693720360.jpg",
+"images/FB_IMG_1776885598001.jpg",
+"images/FB_IMG_1776885609789.jpg",
+"images/FB_IMG_1776885622286.jpg",
+"images/FB_IMG_1776885629939.jpg",
+"images/FB_IMG_1776885639302.jpg",
+"images/IMG-20191223-WA0015.jpg",
+"images/IMG-20210325-WA0000.jpg",
+"images/IMG-20210423-WA0001.jpg",
+"images/IMG-20210423-WA0018.jpg",
+"images/IMG-20210423-WA0020.jpg",
+"images/IMG-20210423-WA0037.jpg",
+"images/IMG-20210423-WA0038.jpg",
+"images/IMG-20230906-WA0000.jpg",
+"images/IMG-20251122-WA0003.jpg",
+"images/IMG-20251122-WA0004.jpg",
+"images/IMG_20230920_103736_268.jpg"
+];
+
 const memories = images.map((_, i) => `Memory ${i+1} 💜`);
 
 let currentIndex = 0;
