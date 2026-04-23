@@ -47,21 +47,23 @@ button {
     text-transform: uppercase;
 }
 
-/* 🔥 FULLSCREEN SLIDESHOW FIX */
+/* 🔥 SLIDESHOW (hidden by default) */
 #slideshow {
-    display: none;
+    display: none; /* IMPORTANT FIX */
     position: fixed;
     inset: 0;
     z-index: 999;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
+    padding: 20px;
+}
 
+/* active state */
+#slideshow.active {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
-
-    padding: 20px;
 }
 
 /* IMAGE */
@@ -86,9 +88,7 @@ button {
 
 #caption.show { opacity: 1; }
 
-#tapHint {
-    opacity: 0.7;
-}
+#tapHint { opacity: 0.7; }
 
 /* FINAL BUTTON */
 #finalBtn {
@@ -136,10 +136,12 @@ button {
 
 <body>
 
+<!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
 <h1>Oh no, what might this surprise be?! 👀</h1>
 </div>
 
+<!-- MAIN -->
 <div id="mainContent">
 <div class="container">
 
@@ -151,7 +153,7 @@ button {
 </div>
 </div>
 
-<!-- MOVED INSIDE FULLSCREEN -->
+<!-- SLIDESHOW -->
 <div id="slideshow" onclick="nextSlide()">
 <div id="slideWrapper"></div>
 <div id="caption"></div>
@@ -171,11 +173,13 @@ button {
 
 <script>
 
+/* SPLASH */
 function startExperience(){
     splashScreen.style.display="none";
     mainContent.style.display="block";
 }
 
+/* WARNING BUTTON */
 let warningStep=0;
 function handleWarning(){
     warningStep++;
@@ -184,6 +188,7 @@ function handleWarning(){
     else startSlideshow();
 }
 
+/* SLIDES */
 const slides = [
 {src:"images_new/1.jpg",text:"It's your birthday, silly!!"},
 {src:"images_new/2.jpg",text:"Did I mention you're silly?!"},
@@ -214,7 +219,7 @@ let currentIndex=0;
 
 function startSlideshow(){
     mainContent.style.display="none";
-    slideshow.style.display="flex";
+    slideshow.classList.add("active"); /* KEY FIX */
 
     bgMusic.currentTime=15;
     bgMusic.play();
@@ -239,14 +244,14 @@ function showSlide(){
 function nextSlide(){
     currentIndex++;
     if(currentIndex>=slides.length){
-        slideshow.style.display="none";
+        slideshow.classList.remove("active");
         finalBtn.classList.add("show");
         return;
     }
     showSlide();
 }
 
-/* FINAL stays unchanged */
+/* FINAL (unchanged) */
 function startFinal(){
     finalScreen.style.display="flex";
 }
