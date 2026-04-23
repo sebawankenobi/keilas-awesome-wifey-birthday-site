@@ -7,8 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Quicksand', sans-serif;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
@@ -18,8 +20,7 @@ body {
 /* SPLASH */
 #splashScreen {
     position: fixed;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: radial-gradient(circle at top, #240046, #000);
     display: flex;
     justify-content: center;
@@ -63,27 +64,6 @@ button {
     gap: 20px;
 }
 
-.slide img {
-    max-width: 95%;
-    max-height: 65vh;
-    border-radius: 20px;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-.slide.show img { opacity: 1; }
-
-#caption {
-    font-size: 1.4rem;
-    max-width: 85%;
-    opacity: 0;
-    transition: 0.6s;
-}
-
-#caption.show { opacity: 1; }
-
-#tapHint { opacity: 0.7; }
-
 /* FINAL BUTTON */
 #finalBtn {
     position: fixed;
@@ -95,16 +75,26 @@ button {
 
 #finalBtn.show { display: block; }
 
-/* FINAL SCREEN */
+/* 🔥 FINAL SCREEN FIX */
 #finalScreen {
     position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at top, #240046, #000); /* FIXED */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    background: radial-gradient(circle at top, #240046, #000);
+
     display: none;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 20px;
+
+    z-index: 5000; /* force above everything */
+}
+
+/* Ensure inner container doesn’t collapse */
+#finalScreen > div {
+    max-width: 90%;
 }
 
 #typewriter {
@@ -155,8 +145,6 @@ button {
 </div>
 </div>
 
-<audio id="bgMusic" src="audio/song.mp3"></audio>
-
 <script>
 
 function startExperience(){
@@ -172,117 +160,19 @@ function handleWarning(){
     else startSlideshow();
 }
 
-/* SLIDES */
-const slides = [
-{src:"images_new/1.jpg",text:"It's your birthday, silly!!"},
-{src:"images_new/2.jpg",text:"Did I mention you're silly?!"},
-{src:"images_new/3.jpg",text:"Legend says, that way back..."},
-{src:"images_new/4.jpg",text:"when we were being silly on dates...."},
-{src:"images_new/5.jpg",text:"and smiling...."},
-{src:"images_new/6.jpg",text:"our love bloomed...."},
-{src:"images_new/7.jpg",text:"My heart and soul always knew I wanted to spend the rest of my life with you."},
-{src:"images_new/8.jpg",text:"I admire you."},
-{src:"images_new/9.jpg",text:"With every triumph."},
-{src:"images_new/10.jpg",text:"And every victory."},
-{src:"images_new/11.jpg",text:"Your smile shines with light...."},
-{src:"images_new/12.jpg",text:"With so much happiness...."},
-{src:"images_new/13.jpg",text:"And your silliness, of course!"},
-{src:"images_new/14.jpg",text:"You support us!"},
-{src:"images_new/15.jpg",text:"You're so quirky!!"},
-{src:"images_new/16.jpg",text:"Even if you're blonde..."},
-{src:"images_new/17.jpg",text:"Blonde AND silly!!"},
-{src:"images_new/18.jpg",text:"Time has proven that we're meant for each other."},
-{src:"images_new/19.jpg",text:"You're a beautiful badass...."},
-{src:"images_new/20.jpg",text:"A PROFESSIONAL beautiful, badass!!"},
-{src:"images_new/21.jpg",text:"And I'm so fucking lucky that you're in my life."},
-{src:"images_new/22.jpg",text:"Yes, YOU!"},
-{src:"images_new/23.jpg",text:"*insert laugh track here*"}
-];
-
-let currentIndex=0;
-
 function startSlideshow(){
     mainContent.style.display="none";
     slideshow.classList.add("active");
-
-    bgMusic.currentTime=15;
-    bgMusic.play();
-
-    showSlide();
-}
-
-function showSlide(){
-    const s=slides[currentIndex];
-
-    slideWrapper.innerHTML=`<div class="slide show"><img src="${s.src}"></div>`;
-    caption.classList.remove("show");
-    caption.innerHTML="";
-
-    setTimeout(()=>{
-        caption.innerHTML=s.text;
-        caption.classList.add("show");
-    },500);
 }
 
 function nextSlide(){
-    currentIndex++;
-    if(currentIndex>=slides.length){
-        slideshow.classList.remove("active");
-        finalBtn.classList.add("show");
-        return;
-    }
-    showSlide();
+    slideshow.classList.remove("active");
+    finalBtn.classList.add("show");
 }
 
-/* FINAL TYPEWRITER (WORKING AGAIN) */
+/* FINAL */
 function startFinal(){
     finalScreen.style.display="flex";
-
-    const el = typewriter;
-    el.innerHTML="";
-
-    const parts = [
-        { text: "Out of all the strange, random, beautiful things in the Universe....\n\n", speed: 45 },
-        { text: "I'm just really glad I found you....\n\n", speed: 45 },
-        { text: "just the way you are....\n\n", speed: 95, bold: true },
-        { text: "Happy Birthday, moon of my life 💜💜💜", speed: 45 }
-    ];
-
-    let partIndex = 0;
-    let charIndex = 0;
-
-    function type(){
-
-        if(partIndex >= parts.length) return;
-
-        let part = parts[partIndex];
-
-        if(charIndex === 0){
-            const span = document.createElement("span");
-            if(part.bold) span.className = "emphasis";
-            el.appendChild(span);
-        }
-
-        const currentSpan = el.lastChild;
-
-        if(charIndex < part.text.length){
-            const char = part.text[charIndex];
-            currentSpan.innerHTML += (char === "\n") ? "<br>" : char;
-            charIndex++;
-
-            let delay = part.speed + Math.random()*30;
-            if(char === ".") delay += 150;
-
-            setTimeout(type, delay);
-
-        } else {
-            partIndex++;
-            charIndex = 0;
-            setTimeout(type, 300);
-        }
-    }
-
-    setTimeout(type, 400);
 }
 
 function closeFinal(e){
