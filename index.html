@@ -74,7 +74,7 @@ button {
     50% { opacity: 0.8; }
 }
 
-/* FINAL BUTTON (centered screen) */
+/* FINAL BUTTON */
 #finalBtn {
     position: fixed;
     top: 50%;
@@ -146,31 +146,29 @@ function startExperience(){
 }
 
 const images = [
-"images/20190801_163558.jpg",
-"images/20190823_171856.jpg",
-"images/20200912_201834.jpg",
-"images/20230409_090603.jpg",
-"images/20230423_144323.jpg",
-"images/FB_IMG_1557711830326.jpg",
-"images/FB_IMG_1566611458309.jpg",
-"images/FB_IMG_1587683608211.jpg",
-"images/FB_IMG_1776693720360.jpg",
-"images/FB_IMG_1776885598001.jpg",
-"images/FB_IMG_1776885609789.jpg",
-"images/FB_IMG_1776885622286.jpg",
-"images/FB_IMG_1776885629939.jpg",
-"images/FB_IMG_1776885639302.jpg",
-"images/IMG-20191223-WA0015.jpg",
-"images/IMG-20210325-WA0000.jpg",
-"images/IMG-20210423-WA0001.jpg",
-"images/IMG-20210423-WA0018.jpg",
-"images/IMG-20210423-WA0020.jpg",
-"images/IMG-20210423-WA0037.jpg",
-"images/IMG-20210423-WA0038.jpg",
-"images/IMG-20230906-WA0000.jpg",
-"images/IMG-20251122-WA0003.jpg",
-"images/IMG-20251122-WA0004.jpg",
-"images/IMG_20230920_103736_268.jpg"
+"images_new/1.jpg",
+"images_new/2.jpg",
+"images_new/3.jpg",
+"images_new/4.jpg",
+"images_new/5.jpg",
+"images_new/6.jpg",
+"images_new/7.jpg",
+"images_new/8.jpg",
+"images_new/9.jpg",
+"images_new/10.jpg",
+"images_new/11.jpg",
+"images_new/12.jpg",
+"images_new/13.jpg",
+"images_new/14.jpg",
+"images_new/15.jpg",
+"images_new/16.jpg",
+"images_new/17.jpg",
+"images_new/18.jpg",
+"images_new/19.jpg",
+"images_new/20.jpg",
+"images_new/21.jpg",
+"images_new/22.jpg",
+"images_new/23.jpg"
 ];
 
 let currentIndex = 0;
@@ -179,7 +177,7 @@ const finalBtn = document.getElementById("finalBtn");
 
 function startSlideshow(){
 
-    document.getElementById("startBtn").style.display = "none"; // 🔥 hide first button
+    document.getElementById("startBtn").style.display = "none";
 
     slideshow.style.display = "block";
     document.getElementById("tapHint").style.display = "block";
@@ -208,10 +206,7 @@ function nextSlide(){
     if(currentIndex >= images.length){
         slideshow.style.display = "none";
         document.getElementById("tapHint").style.display = "none";
-
-        // 🔥 show final button alone
         finalBtn.classList.add("show");
-
         return;
     }
 
