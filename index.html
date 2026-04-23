@@ -7,13 +7,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-html, body {
+html {
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+}
+
+body {
     margin: 0;
     padding: 0;
     font-family: 'Quicksand', sans-serif;
-    background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
+    overflow-x: hidden;
+}
+
+/* FLOATING */
+.floating {
+    position: fixed;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.f1 { left: 10%; top: 20%; }
+.f2 { left: 80%; top: 30%; animation-delay: 2s; }
+.f3 { left: 50%; top: 10%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
 }
 
 /* SPLASH */
@@ -32,7 +55,6 @@ html, body {
 
 .container { padding: 60px 20px; }
 
-/* BUTTON */
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
@@ -51,18 +73,13 @@ button {
     position: fixed;
     inset: 0;
     z-index: 999;
-
-    /* 🔥 THIS IS THE ONLY FIX */
     background: radial-gradient(circle at top, #7b2cbf, #240046);
-
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-#slideshow.active {
-    display: flex;
-}
+#slideshow.active { display: flex; }
 
 .slide img {
     max-width: 92%;
@@ -79,10 +96,14 @@ button {
     font-size: 1.4rem;
     max-width: 85%;
     opacity: 0;
-    transition: 0.6s;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-#caption.show { opacity: 1; }
+#caption.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 #tapHint {
     margin-top: 10px;
@@ -90,18 +111,17 @@ button {
     display: none;
 }
 
-/* FINAL BUTTON */
 #finalBtn {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
+    z-index: 1500;
 }
 
 #finalBtn.show { display: block; }
 
-/* FINAL SCREEN */
 #finalScreen {
     position: fixed;
     inset: 0;
@@ -109,7 +129,7 @@ button {
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 2000;
 }
 
 #typewriter {
@@ -128,6 +148,10 @@ button {
 </head>
 
 <body>
+
+<div class="floating f1">🌼</div>
+<div class="floating f2">🌀</div>
+<div class="floating f3">💜</div>
 
 <div id="splashScreen" onclick="startExperience()">
 <h1>Oh no, what might this surprise be?! 👀</h1>
