@@ -14,6 +14,11 @@ body {
     font-size: 18px;
 }
 
+/* SOFT TEXT SHADOW (global feel) */
+h1, h2, #caption, #typewriter {
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
 /* SPLASH */
 #splashScreen {
     position: fixed;
@@ -62,7 +67,7 @@ button {
 
 .slide.show img { opacity: 1; }
 
-/* CAPTION (improved readability) */
+/* CAPTION */
 #caption {
     margin-top: 25px;
     font-size: 1.4rem;
@@ -116,7 +121,7 @@ button {
     padding: 20px;
 }
 
-/* FINAL TEXT BIGGER */
+/* FINAL TEXT */
 #typewriter {
     font-size: 1.6rem;
     line-height: 1.7;
@@ -217,9 +222,7 @@ const caption = document.getElementById("caption");
 const finalBtn = document.getElementById("finalBtn");
 
 function startSlideshow(){
-
     document.getElementById("startBtn").style.display = "none";
-
     slideshow.style.display = "block";
     document.getElementById("tapHint").style.display = "block";
 
@@ -233,7 +236,6 @@ function startSlideshow(){
 }
 
 function showSlide(){
-
     const slide = slides[currentIndex];
 
     slideshow.innerHTML = `
@@ -252,7 +254,6 @@ function showSlide(){
 }
 
 function nextSlide(){
-
     currentIndex++;
 
     if(currentIndex >= slides.length){
