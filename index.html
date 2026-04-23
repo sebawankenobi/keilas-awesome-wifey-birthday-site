@@ -7,12 +7,14 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Comic Sans MS', cursive;
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
+    font-size: 18px;
 }
 
+/* SPLASH */
 #splashScreen {
     position: fixed;
     width: 100%;
@@ -29,14 +31,18 @@ body {
 
 .container { padding: 60px 20px; }
 
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+
+/* BUTTON */
 button {
     background-color: #ffb703;
     color: #240046;
     border: none;
-    padding: 15px 25px;
+    padding: 16px 28px;
     border-radius: 50px;
     cursor: pointer;
-    font-family: 'Comic Sans MS', cursive;
+    font-size: 1rem;
 }
 
 /* SLIDESHOW */
@@ -47,8 +53,8 @@ button {
 }
 
 .slide img {
-    max-width: 90%;
-    max-height: 60vh;
+    max-width: 92%;
+    max-height: 65vh;
     border-radius: 20px;
     opacity: 0;
     transition: opacity 1s ease;
@@ -56,11 +62,12 @@ button {
 
 .slide.show img { opacity: 1; }
 
-/* CAPTION */
+/* CAPTION (improved readability) */
 #caption {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    max-width: 80%;
+    margin-top: 25px;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    max-width: 85%;
     margin-left: auto;
     margin-right: auto;
     opacity: 0;
@@ -76,14 +83,8 @@ button {
 /* Tap hint */
 #tapHint {
     margin-top: 15px;
-    opacity: 0.6;
-    font-size: 0.9rem;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%,100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
+    opacity: 0.7;
+    font-size: 1rem;
 }
 
 /* FINAL BUTTON */
@@ -112,6 +113,14 @@ button {
     display: none;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+}
+
+/* FINAL TEXT BIGGER */
+#typewriter {
+    font-size: 1.6rem;
+    line-height: 1.7;
+    max-width: 90%;
 }
 
 #backBtn { margin-top: 60px; }
@@ -158,7 +167,6 @@ function startExperience(){
     document.getElementById("mainContent").style.display="block";
 }
 
-/* WARNING SEQUENCE */
 let warningStep = 0;
 
 function handleWarning(){
