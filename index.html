@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>A Curious Birthday 💜</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 body {
@@ -20,6 +20,7 @@ h1, h2, #caption, #typewriter {
     text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
 
+/* SPLASH */
 #splashScreen {
     position: fixed;
     width: 100%;
@@ -36,6 +37,7 @@ h1, h2, #caption, #typewriter {
 
 .container { padding: 60px 20px; }
 
+/* BUTTON */
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
@@ -49,61 +51,94 @@ button {
     text-transform: uppercase;
 }
 
-/* slideshow */
-#slideshow { display:none; margin-top:40px; cursor:pointer; }
-.slide img { max-width:92%; max-height:65vh; border-radius:20px; opacity:0; transition:opacity 1s ease; }
-.slide.show img { opacity:1; }
+/* SLIDESHOW */
+#slideshow {
+    display: none;
+    margin-top: 40px;
+    cursor: pointer;
+}
 
+.slide img {
+    max-width: 92%;
+    max-height: 65vh;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.slide.show img { opacity: 1; }
+
+/* CAPTION */
 #caption {
-    margin-top:25px;
-    font-size:1.4rem;
-    max-width:85%;
-    margin-left:auto;
-    margin-right:auto;
-    opacity:0;
-    transition:0.6s;
+    margin-top: 25px;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    max-width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    transition: 0.6s;
 }
-#caption.show { opacity:1; }
 
-#tapHint { margin-top:15px; opacity:0.7; }
+#caption.show { opacity: 1; }
 
+#tapHint {
+    margin-top: 15px;
+    opacity: 0.7;
+}
+
+/* FINAL BUTTON */
 #finalBtn {
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    opacity:0;
-    display:none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    display: none;
 }
-#finalBtn.show { display:block; opacity:1; }
 
+#finalBtn.show {
+    display: block;
+    opacity: 1;
+}
+
+/* FINAL SCREEN */
 #finalScreen {
-    position:fixed;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(10,0,20,0.95);
-    display:none;
-    justify-content:center;
-    align-items:center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,0,20,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
 
 #typewriter {
-    font-size:1.6rem;
-    max-width:90%;
+    font-size: 1.6rem;
+    max-width: 90%;
+    line-height: 1.7;
 }
 
-#backBtn { margin-top:60px; }
+/* 🔥 EMPHASIS LINE (guaranteed bold + glow) */
+.emphasis {
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(255,255,255,0.4);
+}
+
+#backBtn { margin-top: 60px; }
 
 </style>
 </head>
 
 <body>
 
+<!-- SPLASH -->
 <div id="splashScreen" onclick="startExperience()">
 <h1>Oh no, what might this surprise be?! 👀</h1>
 </div>
 
+<!-- MAIN -->
 <div id="mainContent">
 <div class="container">
 
@@ -132,20 +167,22 @@ button {
 
 <script>
 
+/* SPLASH */
 function startExperience(){
     splashScreen.style.display="none";
     mainContent.style.display="block";
 }
 
+/* WARNING BUTTON */
 let warningStep=0;
 function handleWarning(){
-    const btn=startBtn;
     warningStep++;
-    if(warningStep===1) btn.innerText="ARE YOU SURE!";
-    else if(warningStep===2) btn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
+    if(warningStep===1) startBtn.innerText="ARE YOU SURE!";
+    else if(warningStep===2) startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
     else startSlideshow();
 }
 
+/* SLIDES */
 const slides = [
 {src:"images_new/1.jpg",text:"It's your birthday, silly!!"},
 {src:"images_new/2.jpg",text:"Did I mention you're silly?!"},
@@ -205,62 +242,55 @@ function nextSlide(){
     showSlide();
 }
 
-/* FINAL TYPEWRITER */
+/* FINAL TYPEWRITER (FIXED BOLD) */
 function startFinal(){
     finalScreen.style.display="flex";
 
-    const lines = [
-        "Out of all the strange, random, beautiful things in the Universe....",
-        "",
-        "I'm just really glad I found you....",
-        "",
-        "just the way you are....", // 🔥 bold line
-        "",
-        "Happy Birthday, moon of my life 💜💜💜"
-    ];
-
     const el = typewriter;
     el.innerHTML="";
-    let lineIndex=0;
-    let charIndex=0;
+
+    const parts = [
+        { text: "Out of all the strange, random, beautiful things in the Universe....\n\n", speed: 45 },
+        { text: "I'm just really glad I found you....\n\n", speed: 45 },
+        { text: "just the way you are....\n\n", speed: 95, bold: true },
+        { text: "Happy Birthday, moon of my life 💜💜💜", speed: 45 }
+    ];
+
+    let partIndex = 0;
+    let charIndex = 0;
 
     function type(){
 
-        if(lineIndex>=lines.length) return;
+        if(partIndex >= parts.length) return;
 
-        let currentLine = lines[lineIndex];
+        let part = parts[partIndex];
 
-        // 🔥 make THIS line bold
-        if(lineIndex === 4){
-            el.innerHTML += "<strong>";
+        if(charIndex === 0){
+            const span = document.createElement("span");
+            if(part.bold) span.className = "emphasis";
+            el.appendChild(span);
         }
 
-        if(charIndex < currentLine.length){
-            el.innerHTML += currentLine[charIndex];
+        const currentSpan = el.lastChild;
+
+        if(charIndex < part.text.length){
+            const char = part.text[charIndex];
+            currentSpan.innerHTML += (char === "\n") ? "<br>" : char;
             charIndex++;
 
-            let delay = 45 + Math.random()*30;
-
-            // slower for bold line
-            if(lineIndex === 4) delay += 60;
-
-            if(currentLine[charIndex-1]===".") delay+=150;
+            let delay = part.speed + Math.random()*30;
+            if(char === ".") delay += 150;
 
             setTimeout(type, delay);
+
         } else {
-            if(lineIndex === 4){
-                el.innerHTML += "</strong>";
-            }
-
-            el.innerHTML += "<br>";
-            lineIndex++;
-            charIndex=0;
-
+            partIndex++;
+            charIndex = 0;
             setTimeout(type, 300);
         }
     }
 
-    setTimeout(type,400);
+    setTimeout(type, 400);
 }
 
 function closeFinal(e){
