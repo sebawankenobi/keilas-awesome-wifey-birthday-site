@@ -10,7 +10,6 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     font-family: 'Quicksand', sans-serif;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
@@ -37,7 +36,6 @@ html, body {
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
-    letter-spacing: 1px;
     background-color: #ffb703;
     color: #240046;
     border: none;
@@ -47,22 +45,22 @@ button {
     text-transform: uppercase;
 }
 
-/* 🔥 SLIDESHOW FIX (no scrolling, centered) */
+/* 🔥 SLIDESHOW (FIXED WITHOUT BREAKING FLOW) */
 #slideshow {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 999;
-    
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    padding: 20px;
+    flex-direction: column;
 }
 
-/* IMAGE */
+/* only active when started */
+#slideshow.active {
+    display: flex;
+}
+
 .slide img {
     max-width: 92%;
     max-height: 65vh;
@@ -73,11 +71,9 @@ button {
 
 .slide.show img { opacity: 1; }
 
-/* CAPTION */
 #caption {
     margin-top: 20px;
     font-size: 1.4rem;
-    line-height: 1.6;
     max-width: 85%;
     opacity: 0;
     transition: 0.6s;
@@ -88,6 +84,7 @@ button {
 #tapHint {
     margin-top: 10px;
     opacity: 0.7;
+    display: none;
 }
 
 /* FINAL BUTTON */
@@ -105,8 +102,6 @@ button {
 #finalScreen {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
     background: radial-gradient(circle at top, #240046, #000);
     display: none;
     justify-content: center;
@@ -117,7 +112,6 @@ button {
 #typewriter {
     font-size: 1.6rem;
     max-width: 90%;
-    line-height: 1.7;
 }
 
 .emphasis {
@@ -144,11 +138,14 @@ button {
 
 <button id="startBtn" onclick="handleWarning()">WARNING - DON'T CLICK ON THIS!!</button>
 
-<div id="slideshow" onclick="nextSlide()"></div>
-<div id="caption"></div>
-<div id="tapHint" style="display:none;">(tap the photo 💜)</div>
-
 </div>
+</div>
+
+<!-- SLIDESHOW -->
+<div id="slideshow" onclick="nextSlide()">
+<div id="slideWrapper"></div>
+<div id="caption"></div>
+<div id="tapHint">(tap the photo 💜)</div>
 </div>
 
 <button id="finalBtn" onclick="startFinal()">Oh, And One Last Thing.... 💜</button>
@@ -164,19 +161,27 @@ button {
 
 <script>
 
+/* SPLASH */
 function startExperience(){
     splashScreen.style.display="none";
     mainContent.style.display="block";
 }
 
+/* WARNING FLOW (RESTORED) */
 let warningStep=0;
 function handleWarning(){
     warningStep++;
-    if(warningStep===1) startBtn.innerText="ARE YOU SURE!";
-    else if(warningStep===2) startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
-    else startSlideshow();
+
+    if(warningStep===1){
+        startBtn.innerText="ARE YOU SURE!";
+    } else if(warningStep===2){
+        startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
+    } else {
+        startSlideshow();
+    }
 }
 
+/* SLIDES */
 const slides = [
 {src:"images_new/1.jpg",text:"It's your birthday, silly!!"},
 {src:"images_new/2.jpg",text:"Did I mention you're silly?!"},
@@ -206,8 +211,8 @@ const slides = [
 let currentIndex=0;
 
 function startSlideshow(){
-    startBtn.style.display="none";
-    slideshow.style.display="flex";
+    mainContent.style.display="none";
+    slideshow.classList.add("active");
     tapHint.style.display="block";
 
     bgMusic.currentTime=15;
@@ -219,7 +224,7 @@ function startSlideshow(){
 function showSlide(){
     const s=slides[currentIndex];
 
-    slideshow.innerHTML=`<div class="slide show"><img src="${s.src}"></div>`;
+    slideWrapper.innerHTML=`<div class="slide show"><img src="${s.src}"></div>`;
 
     caption.classList.remove("show");
     caption.innerHTML="";
@@ -227,18 +232,18 @@ function showSlide(){
     setTimeout(()=>{
         caption.innerHTML=s.text;
         caption.classList.add("show");
-    },600);
+    },500);
 }
 
 function nextSlide(){
     currentIndex++;
+
     if(currentIndex>=slides.length){
-        slideshow.style.display="none";
-        caption.style.display="none";
-        tapHint.style.display="none";
+        slideshow.classList.remove("active");
         finalBtn.classList.add("show");
         return;
     }
+
     showSlide();
 }
 
