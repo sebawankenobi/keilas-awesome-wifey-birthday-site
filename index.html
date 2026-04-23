@@ -34,7 +34,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px; /* 🔥 FIX: consistent spacing */
+    gap: 25px;
 }
 
 button {
@@ -54,7 +54,7 @@ button {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    min-height: 200px; /* 🔥 prevents layout collapse */
+    min-height: 200px;
 }
 
 .gallery.show {
@@ -76,7 +76,19 @@ button {
     transform: translateY(0);
 }
 
-/* FINAL */
+/* FINAL BUTTON (hidden initially) */
+#finalBtn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+}
+
+#finalBtn.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* FINAL SCREEN */
 #finalScreen {
     position: fixed;
     top: 0;
@@ -118,7 +130,7 @@ button {
 
 <div class="gallery" id="gallery"></div>
 
-<button onclick="startFinal()">One Last Thing 💜</button>
+<button id="finalBtn" onclick="startFinal()">One Last Thing 💜</button>
 
 </div>
 </div>
@@ -168,6 +180,7 @@ const images = [
 ];
 
 const gallery = document.getElementById("gallery");
+const finalBtn = document.getElementById("finalBtn");
 
 function reveal(){
 
@@ -187,6 +200,18 @@ function reveal(){
         });
 
     });
+
+    // 🎯 Smooth scroll into memories
+    setTimeout(() => {
+        gallery.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+
+    // 🎯 Reveal final button AFTER all photos animate
+    const totalDuration = images.length * 120 + 800;
+
+    setTimeout(() => {
+        finalBtn.classList.add("show");
+    }, totalDuration);
 
     const music = document.getElementById("bgMusic");
     try {
