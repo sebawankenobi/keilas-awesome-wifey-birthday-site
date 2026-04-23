@@ -52,8 +52,7 @@ button:hover { transform: scale(1.05); }
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    opacity: 0;
-    transition: opacity 2s ease;
+    opacity: 1; /* FIXED: always visible */
 }
 
 .photo {
@@ -62,6 +61,7 @@ button:hover { transform: scale(1.05); }
     object-fit: cover;
     border-radius: 20px;
     cursor: pointer;
+    transition: 0.3s;
 }
 .photo:hover { transform: scale(1.05); }
 
@@ -236,10 +236,11 @@ images.forEach((src,i)=>{
 });
 
 function reveal(){
-    document.querySelector(".gallery").style.opacity="1";
     const music=document.getElementById("bgMusic");
-    music.currentTime=15;
-    music.play().catch(()=>{});
+    try {
+        music.currentTime = 15;
+        music.play();
+    } catch(e){}
 }
 
 function openLightbox(i){
