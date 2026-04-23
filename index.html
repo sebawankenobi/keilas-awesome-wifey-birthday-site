@@ -29,7 +29,13 @@ body {
 /* MAIN */
 #mainContent { display: none; }
 
-.container { padding: 60px 20px; }
+.container { 
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* 🔥 FIX: consistent spacing */
+}
 
 button {
     background-color: #ffb703;
@@ -44,10 +50,11 @@ button {
 /* GALLERY */
 .gallery {
     display: none;
-    margin-top: 40px;
+    margin-top: 10px;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    min-height: 200px; /* 🔥 prevents layout collapse */
 }
 
 .gallery.show {
@@ -91,6 +98,7 @@ button {
 
 .cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
 </style>
 </head>
 
@@ -172,7 +180,6 @@ function reveal(){
         img.className = "photo";
         gallery.appendChild(img);
 
-        // 🔥 FORCE browser to register initial state
         requestAnimationFrame(() => {
             setTimeout(() => {
                 img.classList.add("visible");
