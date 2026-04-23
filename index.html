@@ -7,22 +7,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-html, body {
+html {
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+}
+
+body {
     margin: 0;
     padding: 0;
-    height: 100%;
     font-family: 'Quicksand', sans-serif;
     color: white;
     text-align: center;
+    overflow-x: hidden;
 }
 
-/* 🔥 GLOBAL BACKGROUND FIX (prevents white anywhere) */
-body::before {
-    content: "";
+/* 🌼 FLOATING ELEMENTS (SAFE ADD) */
+.floating {
     position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at top, #7b2cbf, #240046);
-    z-index: -1;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.f1 { left: 10%; top: 20%; }
+.f2 { left: 80%; top: 30%; animation-delay: 2s; }
+.f3 { left: 50%; top: 10%; animation-delay: 4s; }
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
 }
 
 /* SPLASH */
@@ -78,15 +92,20 @@ button {
 
 .slide.show img { opacity: 1; }
 
+/* ✨ SMOOTHER CAPTION FADE */
 #caption {
     margin-top: 20px;
     font-size: 1.4rem;
     max-width: 85%;
     opacity: 0;
-    transition: 0.6s;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-#caption.show { opacity: 1; }
+#caption.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 #tapHint {
     margin-top: 10px;
@@ -133,6 +152,11 @@ button {
 </head>
 
 <body>
+
+<!-- 🌼 FLOATING ELEMENTS -->
+<div class="floating f1">🌼</div>
+<div class="floating f2">🌀</div>
+<div class="floating f3">💜</div>
 
 <div id="splashScreen" onclick="startExperience()">
 <h1>Oh no, what might this surprise be?! 👀</h1>
@@ -190,7 +214,7 @@ const slides = [
 {src:"images_new/6.jpg",text:"our love bloomed...."},
 {src:"images_new/7.jpg",text:"My heart and soul always knew I wanted to spend the rest of my life with you."},
 {src:"images_new/8.jpg",text:"I admire you."},
-{src:"images_new/9.jpg",text:"With every triumph."},
+{src:"images_new/9.jpg",text:"With every triumph.""},
 {src:"images_new/10.jpg",text:"And every victory."},
 {src:"images_new/11.jpg",text:"Your smile shines with light...."},
 {src:"images_new/12.jpg",text:"With so much happiness...."},
