@@ -31,12 +31,9 @@ body {
 
 .container { 
     padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
 }
 
+/* BUTTON */
 button {
     background-color: #ffb703;
     color: #240046;
@@ -47,52 +44,36 @@ button {
     font-family: 'Comic Sans MS', cursive;
 }
 
-/* GALLERY */
-.gallery {
+/* SLIDESHOW */
+#slideshow {
     display: none;
-    margin-top: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    min-height: 200px;
+    margin-top: 40px;
 }
 
-.gallery.show {
-    display: flex;
-}
-
-.photo {
-    width: clamp(140px, 35vw, 240px);
-    height: clamp(140px, 35vw, 240px);
-    object-fit: cover;
-    border-radius: 20px;
-
+.slide {
     opacity: 0;
-    transform: translateY(20px);
+    transition: opacity 1.2s ease;
 }
 
-/* Smooth animation */
-.photo.animate {
-    animation: fadeUp 0.6s ease forwards;
+.slide img {
+    max-width: 90%;
+    max-height: 60vh;
+    border-radius: 20px;
 }
 
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.slide.show {
+    opacity: 1;
 }
 
 /* FINAL BUTTON */
 #finalBtn {
+    margin-top: 40px;
     opacity: 0;
-    pointer-events: none;
     transition: opacity 1.5s ease;
 }
 
 #finalBtn.show {
     opacity: 1;
-    pointer-events: auto;
 }
 
 /* FINAL SCREEN */
@@ -124,9 +105,9 @@ button {
 <h1>Down the Rabbit Hole 🐇</h1>
 <h2>It’s Your Birthday 💜</h2>
 
-<button onclick="reveal()">Do NOT Click This 👀</button>
+<button onclick="startSlideshow()">Do NOT Click This 👀</button>
 
-<div class="gallery" id="gallery"></div>
+<div id="slideshow"></div>
 
 <button id="finalBtn" onclick="startFinal()">One Last Thing 💜</button>
 
@@ -177,44 +158,31 @@ const images = [
 "images/IMG_20230920_103736_268.jpg"
 ];
 
-const gallery = document.getElementById("gallery");
+const slideshow = document.getElementById("slideshow");
 const finalBtn = document.getElementById("finalBtn");
 
-function reveal(){
+async function startSlideshow(){
 
-    gallery.classList.add("show");
+    slideshow.style.display = "block";
 
-    // build ALL images instantly (no layout jumping)
-    gallery.innerHTML = images.map(src =>
-        `<img src="${src}" class="photo">`
-    ).join("");
-
-    const photos = document.querySelectorAll(".photo");
-
-    // animate one by one smoothly
-    photos.forEach((img, i) => {
-        setTimeout(() => {
-            img.classList.add("animate");
-        }, i * 120);
-    });
-
-    // scroll
-    setTimeout(() => {
-        gallery.scrollIntoView({ behavior: "smooth" });
-    }, 400);
-
-    // reveal final button after animation
-    const totalTime = images.length * 120 + 600;
-    setTimeout(() => {
-        finalBtn.classList.add("show");
-    }, totalTime);
-
-    // music
     const music = document.getElementById("bgMusic");
     try {
         music.currentTime = 15;
         music.play();
     } catch(e){}
+
+    for (let i = 0; i < images.length; i++) {
+
+        slideshow.innerHTML = `
+            <div class="slide show">
+                <img src="${images[i]}">
+            </div>
+        `;
+
+        await new Promise(r => setTimeout(r, 2200));
+    }
+
+    finalBtn.classList.add("show");
 }
 
 function startFinal(){
