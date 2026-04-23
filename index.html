@@ -66,14 +66,21 @@ button {
     height: clamp(140px, 35vw, 240px);
     object-fit: cover;
     border-radius: 20px;
+
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
+    transform: translateY(20px);
 }
 
-.photo.visible {
-    opacity: 1;
-    transform: translateY(0);
+/* Smooth animation */
+.photo.animate {
+    animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* FINAL BUTTON */
@@ -173,29 +180,36 @@ const images = [
 const gallery = document.getElementById("gallery");
 const finalBtn = document.getElementById("finalBtn");
 
-async function reveal(){
+function reveal(){
 
     gallery.classList.add("show");
 
-    for (let i = 0; i < images.length; i++) {
+    // build ALL images instantly (no layout jumping)
+    gallery.innerHTML = images.map(src =>
+        `<img src="${src}" class="photo">`
+    ).join("");
 
-        const img = document.createElement("img");
-        img.src = images[i];
-        img.className = "photo";
-        gallery.appendChild(img);
+    const photos = document.querySelectorAll(".photo");
 
-        await new Promise(r => setTimeout(r, 120));
+    // animate one by one smoothly
+    photos.forEach((img, i) => {
+        setTimeout(() => {
+            img.classList.add("animate");
+        }, i * 120);
+    });
 
-        img.classList.add("visible");
-    }
-
-    // scroll after first few appear
+    // scroll
     setTimeout(() => {
         gallery.scrollIntoView({ behavior: "smooth" });
-    }, 500);
+    }, 400);
 
-    finalBtn.classList.add("show");
+    // reveal final button after animation
+    const totalTime = images.length * 120 + 600;
+    setTimeout(() => {
+        finalBtn.classList.add("show");
+    }, totalTime);
 
+    // music
     const music = document.getElementById("bgMusic");
     try {
         music.currentTime = 15;
