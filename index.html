@@ -29,9 +29,7 @@ body {
 /* MAIN */
 #mainContent { display: none; }
 
-.container { 
-    padding: 60px 20px;
-}
+.container { padding: 60px 20px; }
 
 /* BUTTON */
 button {
@@ -48,21 +46,32 @@ button {
 #slideshow {
     display: none;
     margin-top: 40px;
-}
-
-.slide {
-    opacity: 0;
-    transition: opacity 1.2s ease;
+    cursor: pointer;
 }
 
 .slide img {
     max-width: 90%;
     max-height: 60vh;
     border-radius: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
 }
 
-.slide.show {
+.slide.show img {
     opacity: 1;
+}
+
+/* Tap hint */
+#tapHint {
+    margin-top: 15px;
+    opacity: 0.6;
+    font-size: 0.9rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
 }
 
 /* FINAL BUTTON */
@@ -107,7 +116,8 @@ button {
 
 <button onclick="startSlideshow()">Do NOT Click This 👀</button>
 
-<div id="slideshow"></div>
+<div id="slideshow" onclick="nextSlide()"></div>
+<div id="tapHint" style="display:none;">(tap the photo 💜)</div>
 
 <button id="finalBtn" onclick="startFinal()">One Last Thing 💜</button>
 
@@ -158,12 +168,14 @@ const images = [
 "images/IMG_20230920_103736_268.jpg"
 ];
 
+let currentIndex = 0;
 const slideshow = document.getElementById("slideshow");
 const finalBtn = document.getElementById("finalBtn");
 
-async function startSlideshow(){
+function startSlideshow(){
 
     slideshow.style.display = "block";
+    document.getElementById("tapHint").style.display = "block";
 
     const music = document.getElementById("bgMusic");
     try {
@@ -171,18 +183,30 @@ async function startSlideshow(){
         music.play();
     } catch(e){}
 
-    for (let i = 0; i < images.length; i++) {
+    showSlide();
+}
 
-        slideshow.innerHTML = `
-            <div class="slide show">
-                <img src="${images[i]}">
-            </div>
-        `;
+function showSlide(){
 
-        await new Promise(r => setTimeout(r, 2200));
+    slideshow.innerHTML = `
+        <div class="slide show">
+            <img src="${images[currentIndex]}">
+        </div>
+    `;
+}
+
+function nextSlide(){
+
+    currentIndex++;
+
+    if(currentIndex >= images.length){
+        slideshow.style.display = "none";
+        document.getElementById("tapHint").style.display = "none";
+        finalBtn.classList.add("show");
+        return;
     }
 
-    finalBtn.classList.add("show");
+    showSlide();
 }
 
 function startFinal(){
