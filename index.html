@@ -74,14 +74,19 @@ button {
     50% { opacity: 0.8; }
 }
 
-/* FINAL BUTTON */
+/* FINAL BUTTON (centered screen) */
 #finalBtn {
-    margin-top: 40px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 1.5s ease;
+    transition: opacity 2s ease;
+    display: none;
 }
 
 #finalBtn.show {
+    display: block;
     opacity: 1;
 }
 
@@ -114,15 +119,15 @@ button {
 <h1>Down the Rabbit Hole 🐇</h1>
 <h2>It’s Your Birthday 💜</h2>
 
-<button onclick="startSlideshow()">Do NOT Click This 👀</button>
+<button id="startBtn" onclick="startSlideshow()">Do NOT Click This 👀</button>
 
 <div id="slideshow" onclick="nextSlide()"></div>
 <div id="tapHint" style="display:none;">(tap the photo 💜)</div>
 
-<button id="finalBtn" onclick="startFinal()">One Last Thing 💜</button>
+</div>
+</div>
 
-</div>
-</div>
+<button id="finalBtn" onclick="startFinal()">One Last Thing 💜</button>
 
 <div id="finalScreen" onclick="closeFinal(event)">
 <div>
@@ -174,6 +179,8 @@ const finalBtn = document.getElementById("finalBtn");
 
 function startSlideshow(){
 
+    document.getElementById("startBtn").style.display = "none"; // 🔥 hide first button
+
     slideshow.style.display = "block";
     document.getElementById("tapHint").style.display = "block";
 
@@ -187,7 +194,6 @@ function startSlideshow(){
 }
 
 function showSlide(){
-
     slideshow.innerHTML = `
         <div class="slide show">
             <img src="${images[currentIndex]}">
@@ -202,7 +208,10 @@ function nextSlide(){
     if(currentIndex >= images.length){
         slideshow.style.display = "none";
         document.getElementById("tapHint").style.display = "none";
+
+        // 🔥 show final button alone
         finalBtn.classList.add("show");
+
         return;
     }
 
