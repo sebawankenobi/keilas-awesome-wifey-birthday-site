@@ -4,17 +4,20 @@
 <meta charset="UTF-8">
 <title>A Curious Birthday 💜</title>
 
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 body {
     margin: 0;
-    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    font-family: 'Quicksand', sans-serif;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
     text-align: center;
     font-size: 18px;
 }
 
-/* SOFT TEXT SHADOW (global feel) */
+/* SOFT SHADOW */
 h1, h2, #caption, #typewriter {
     text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
@@ -48,6 +51,7 @@ button {
     border-radius: 50px;
     cursor: pointer;
     font-size: 1rem;
+    font-family: 'Quicksand', sans-serif;
 }
 
 /* SLIDESHOW */
@@ -267,6 +271,7 @@ function nextSlide(){
     showSlide();
 }
 
+/* IMPROVED TYPEWRITER */
 function startFinal(){
     document.getElementById("finalScreen").style.display="flex";
 
@@ -278,10 +283,18 @@ function startFinal(){
     let i=0;
 
     function type(){
-        if(i<text.length){
-            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+        if(i < text.length){
+
+            const char = text[i];
+            el.innerHTML += char === "\n" ? "<br>" : char;
             i++;
-            setTimeout(type,40);
+
+            let delay = 35;
+
+            if(char === "." || char === "!" || char === "?") delay = 120;
+            if(char === "\n") delay = 250;
+
+            setTimeout(type, delay);
         }
     }
 
