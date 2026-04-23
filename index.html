@@ -257,7 +257,11 @@ function nextSlide(){
     currentIndex++;
 
     if(currentIndex>=slides.length){
-        slideshow.classList.remove("active");
+        /* ✅ FIX: keep background, just clear content */
+        slideWrapper.innerHTML = "";
+        caption.style.display = "none";
+        tapHint.style.display = "none";
+
         finalBtn.classList.add("show");
         return;
     }
