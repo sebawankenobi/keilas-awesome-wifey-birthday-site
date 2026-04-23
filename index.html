@@ -45,18 +45,21 @@ button {
     text-transform: uppercase;
 }
 
-/* 🔥 SLIDESHOW (FIXED WITHOUT BREAKING FLOW) */
+/* SLIDESHOW */
 #slideshow {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 999;
+
+    /* 🔥 THIS IS THE ONLY FIX */
+    background: radial-gradient(circle at top, #7b2cbf, #240046);
+
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-/* only active when started */
 #slideshow.active {
     display: flex;
 }
@@ -141,7 +144,6 @@ button {
 </div>
 </div>
 
-<!-- SLIDESHOW -->
 <div id="slideshow" onclick="nextSlide()">
 <div id="slideWrapper"></div>
 <div id="caption"></div>
@@ -161,27 +163,19 @@ button {
 
 <script>
 
-/* SPLASH */
 function startExperience(){
     splashScreen.style.display="none";
     mainContent.style.display="block";
 }
 
-/* WARNING FLOW (RESTORED) */
 let warningStep=0;
 function handleWarning(){
     warningStep++;
-
-    if(warningStep===1){
-        startBtn.innerText="ARE YOU SURE!";
-    } else if(warningStep===2){
-        startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
-    } else {
-        startSlideshow();
-    }
+    if(warningStep===1) startBtn.innerText="ARE YOU SURE!";
+    else if(warningStep===2) startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
+    else startSlideshow();
 }
 
-/* SLIDES */
 const slides = [
 {src:"images_new/1.jpg",text:"It's your birthday, silly!!"},
 {src:"images_new/2.jpg",text:"Did I mention you're silly?!"},
@@ -247,7 +241,6 @@ function nextSlide(){
     showSlide();
 }
 
-/* FINAL */
 function startFinal(){
     finalScreen.style.display="flex";
 
