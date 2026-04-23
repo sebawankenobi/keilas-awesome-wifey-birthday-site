@@ -40,7 +40,7 @@ h1, h2, #caption, #typewriter {
 h1 { font-size: 2rem; }
 h2 { font-size: 1.5rem; }
 
-/* 🔥 IMPROVED BUTTON STYLE */
+/* BUTTON */
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
@@ -282,31 +282,38 @@ function nextSlide(){
     showSlide();
 }
 
+/* 🔥 SMOOTH TYPEWRITER */
 function startFinal(){
-    document.getElementById("finalScreen").style.display="flex";
+    document.getElementById("finalScreen").style.display = "flex";
 
     const text = "Out of all the strange, random, beautiful things in the Universe....\n\nI'm just really glad I found you....\n\nHappy Birthday, moon of my life 💜💜💜";
 
     const el = document.getElementById("typewriter");
 
-    el.innerHTML="";
-    let i=0;
+    el.innerHTML = "";
+    let i = 0;
 
     function type(){
-        if(i < text.length){
-            const char = text[i];
-            el.innerHTML += char === "\n" ? "<br>" : char;
-            i++;
 
-            let delay = 35;
-            if(char === "." || char === "!" || char === "?") delay = 120;
-            if(char === "\n") delay = 250;
+        if(i >= text.length) return;
 
+        const char = text[i];
+        el.innerHTML += char === "\n" ? "<br>" : char;
+        i++;
+
+        let delay = 45 + Math.random() * 35;
+
+        if (char === "." || char === "!" || char === "?") delay += 180;
+        if (char === ",") delay += 120;
+        if (char === "\n") delay += 350;
+        if (i % 8 === 0) delay += 80;
+
+        requestAnimationFrame(() => {
             setTimeout(type, delay);
-        }
+        });
     }
 
-    type();
+    setTimeout(type, 400);
 }
 
 function closeFinal(e){
