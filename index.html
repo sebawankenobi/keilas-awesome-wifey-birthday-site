@@ -68,7 +68,7 @@ button {
     border-radius: 20px;
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition: all 0.6s ease;
 }
 
 .photo.visible {
@@ -76,7 +76,7 @@ button {
     transform: translateY(0);
 }
 
-/* FINAL BUTTON (hidden initially) */
+/* FINAL BUTTON */
 #finalBtn {
     opacity: 0;
     pointer-events: none;
@@ -100,16 +100,7 @@ button {
     align-items: center;
 }
 
-#finalContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #backBtn { margin-top: 40px; }
-
-.cursor { animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 
 </style>
 </head>
@@ -136,7 +127,7 @@ button {
 </div>
 
 <div id="finalScreen" onclick="closeFinal(event)">
-<div id="finalContent">
+<div>
 <div id="typewriter"></div>
 <button id="backBtn" onclick="closeFinal(event)">← Back</button>
 </div>
@@ -182,36 +173,28 @@ const images = [
 const gallery = document.getElementById("gallery");
 const finalBtn = document.getElementById("finalBtn");
 
-function reveal(){
+async function reveal(){
 
     gallery.classList.add("show");
 
-    images.forEach((src, i) => {
+    for (let i = 0; i < images.length; i++) {
 
         const img = document.createElement("img");
-        img.src = src;
+        img.src = images[i];
         img.className = "photo";
         gallery.appendChild(img);
 
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                img.classList.add("visible");
-            }, i * 120);
-        });
+        await new Promise(r => setTimeout(r, 120));
 
-    });
+        img.classList.add("visible");
+    }
 
-    // 🎯 Smooth scroll into memories
+    // scroll after first few appear
     setTimeout(() => {
         gallery.scrollIntoView({ behavior: "smooth" });
-    }, 300);
+    }, 500);
 
-    // 🎯 Reveal final button AFTER all photos animate
-    const totalDuration = images.length * 120 + 800;
-
-    setTimeout(() => {
-        finalBtn.classList.add("show");
-    }, totalDuration);
+    finalBtn.classList.add("show");
 
     const music = document.getElementById("bgMusic");
     try {
