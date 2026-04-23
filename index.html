@@ -282,21 +282,54 @@ function nextSlide(){
     showSlide();
 }
 
+/* TYPEWRITER WITH EMPHASIS */
 function startFinal(){
     document.getElementById("finalScreen").style.display = "flex";
 
-    const text = "Out of all the strange, random, beautiful things in the Universe....\n\nI'm just really glad I found you....\n\nHappy Birthday, moon of my life 💜💜💜";
+    const text = "Out of all the strange, random, beautiful things in the Universe....\n\nI'm just really glad I found you....\n\n__JUST__\n\nHappy Birthday, moon of my life 💜💜💜";
 
     const el = document.getElementById("typewriter");
 
     el.innerHTML = "";
     let i = 0;
 
+    let emphasisText = "just the way you are....";
+    let emphasisIndex = 0;
+    let inEmphasis = false;
+
     function type(){
+
+        // Handle emphasis separately
+        if(inEmphasis){
+            if(emphasisIndex < emphasisText.length){
+                el.innerHTML += emphasisText[emphasisIndex];
+                emphasisIndex++;
+
+                let delay = 80 + Math.random() * 60; // slower
+
+                if(emphasisText[emphasisIndex-1] === ".") delay += 200;
+
+                setTimeout(type, delay);
+                return;
+            } else {
+                el.innerHTML += "</strong><br><br>";
+                inEmphasis = false;
+            }
+        }
 
         if(i >= text.length) return;
 
         const char = text[i];
+
+        // Trigger emphasis block
+        if(text.substring(i, i+8) === "__JUST__"){
+            el.innerHTML += "<strong>";
+            inEmphasis = true;
+            i += 8;
+            setTimeout(type, 300);
+            return;
+        }
+
         el.innerHTML += char === "\n" ? "<br>" : char;
         i++;
 
