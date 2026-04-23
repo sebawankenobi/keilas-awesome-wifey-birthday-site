@@ -45,14 +45,20 @@ button {
 }
 button:hover { transform: scale(1.05); }
 
-/* GALLERY */
+/* GALLERY (hidden by default again) */
 .gallery {
     margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    opacity: 1; /* FIXED: always visible */
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+/* 👇 THIS makes it appear safely */
+.gallery.show {
+    opacity: 1;
 }
 
 .photo {
@@ -236,6 +242,9 @@ images.forEach((src,i)=>{
 });
 
 function reveal(){
+    // 👇 THIS is the reliable fix
+    document.getElementById("gallery").classList.add("show");
+
     const music=document.getElementById("bgMusic");
     try {
         music.currentTime = 15;
