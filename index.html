@@ -13,7 +13,6 @@ body {
     text-align: center;
 }
 
-/* SPLASH */
 #splashScreen {
     position: fixed;
     width: 100%;
@@ -26,12 +25,10 @@ body {
     cursor: pointer;
 }
 
-/* MAIN */
 #mainContent { display: none; }
 
 .container { padding: 60px 20px; }
 
-/* BUTTON */
 button {
     background-color: #ffb703;
     color: #240046;
@@ -57,9 +54,7 @@ button {
     transition: opacity 1s ease;
 }
 
-.slide.show img {
-    opacity: 1;
-}
+.slide.show img { opacity: 1; }
 
 /* CAPTION */
 #caption {
@@ -133,10 +128,10 @@ button {
 <div id="mainContent">
 <div class="container">
 
-<h1>Down the Rabbit Hole 🐇</h1>
-<h2>It’s Your Birthday 💜</h2>
+<h1>It’s Time To Go Down The Rabbit Hole! 🐇</h1>
+<h2>It’s Your Birthday! 💜</h2>
 
-<button id="startBtn" onclick="startSlideshow()">Do NOT Click This 👀</button>
+<button id="startBtn" onclick="handleWarning()">WARNING - DON'T CLICK ON THIS!!</button>
 
 <div id="slideshow" onclick="nextSlide()"></div>
 <div id="caption"></div>
@@ -161,6 +156,25 @@ button {
 function startExperience(){
     document.getElementById("splashScreen").style.display="none";
     document.getElementById("mainContent").style.display="block";
+}
+
+/* WARNING SEQUENCE */
+let warningStep = 0;
+
+function handleWarning(){
+    const btn = document.getElementById("startBtn");
+
+    warningStep++;
+
+    if(warningStep === 1){
+        btn.innerText = "ARE YOU SURE!";
+    }
+    else if(warningStep === 2){
+        btn.innerText = "DON'T SAY I DIDN'T WARN YOU!!!";
+    }
+    else {
+        startSlideshow();
+    }
 }
 
 const slides = [
@@ -223,7 +237,6 @@ function showSlide(){
     caption.classList.remove("show");
     caption.innerHTML = "";
 
-    // Delay caption slightly after image appears
     setTimeout(() => {
         caption.innerHTML = slide.text;
         caption.classList.add("show");
