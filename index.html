@@ -10,7 +10,6 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     font-family: 'Quicksand', sans-serif;
     background: radial-gradient(circle at top, #7b2cbf, #240046);
     color: white;
@@ -29,11 +28,11 @@ html, body {
     cursor: pointer;
 }
 
-/* MAIN */
 #mainContent { display: none; }
 
 .container { padding: 60px 20px; }
 
+/* BUTTON */
 button {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
@@ -51,25 +50,44 @@ button {
     display: none;
     position: fixed;
     inset: 0;
+    z-index: 999;
+
+    /* 🔥 THIS IS THE ONLY FIX */
     background: radial-gradient(circle at top, #7b2cbf, #240046);
+
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-#slideshow.active { display: flex; }
+#slideshow.active {
+    display: flex;
+}
 
 .slide img {
     max-width: 92%;
     max-height: 65vh;
     border-radius: 20px;
-    transition: opacity 0.6s ease;
+    opacity: 0;
+    transition: opacity 1s ease;
 }
+
+.slide.show img { opacity: 1; }
 
 #caption {
     margin-top: 20px;
     font-size: 1.4rem;
     max-width: 85%;
+    opacity: 0;
+    transition: 0.6s;
+}
+
+#caption.show { opacity: 1; }
+
+#tapHint {
+    margin-top: 10px;
+    opacity: 0.7;
+    display: none;
 }
 
 /* FINAL BUTTON */
@@ -81,6 +99,8 @@ button {
     display: none;
 }
 
+#finalBtn.show { display: block; }
+
 /* FINAL SCREEN */
 #finalScreen {
     position: fixed;
@@ -89,6 +109,7 @@ button {
     display: none;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
 }
 
 #typewriter {
@@ -97,12 +118,12 @@ button {
 }
 
 .emphasis {
-    font-weight: bold;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(255,255,255,0.4);
 }
 
-#backBtn {
-    margin-top: 60px;
-}
+#backBtn { margin-top: 60px; }
+
 </style>
 </head>
 
@@ -126,6 +147,7 @@ button {
 <div id="slideshow" onclick="nextSlide()">
 <div id="slideWrapper"></div>
 <div id="caption"></div>
+<div id="tapHint">(tap the photo 💜)</div>
 </div>
 
 <button id="finalBtn" onclick="startFinal()">Oh, And One Last Thing.... 💜</button>
@@ -140,6 +162,7 @@ button {
 <audio id="bgMusic" src="audio/song.mp3"></audio>
 
 <script>
+
 function startExperience(){
     splashScreen.style.display="none";
     mainContent.style.display="block";
@@ -148,13 +171,9 @@ function startExperience(){
 let warningStep=0;
 function handleWarning(){
     warningStep++;
-    if(warningStep===1){
-        startBtn.innerText="ARE YOU SURE!";
-    } else if(warningStep===2){
-        startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
-    } else {
-        startSlideshow();
-    }
+    if(warningStep===1) startBtn.innerText="ARE YOU SURE!";
+    else if(warningStep===2) startBtn.innerText="DON'T SAY I DIDN'T WARN YOU!!!";
+    else startSlideshow();
 }
 
 const slides = [
@@ -188,6 +207,7 @@ let currentIndex=0;
 function startSlideshow(){
     mainContent.style.display="none";
     slideshow.classList.add("active");
+    tapHint.style.display="block";
 
     bgMusic.currentTime=15;
     bgMusic.play();
@@ -197,16 +217,24 @@ function startSlideshow(){
 
 function showSlide(){
     const s=slides[currentIndex];
-    slideWrapper.innerHTML=`<div class="slide"><img src="${s.src}"></div>`;
-    caption.innerHTML=s.text;
+
+    slideWrapper.innerHTML=`<div class="slide show"><img src="${s.src}"></div>`;
+
+    caption.classList.remove("show");
+    caption.innerHTML="";
+
+    setTimeout(()=>{
+        caption.innerHTML=s.text;
+        caption.classList.add("show");
+    },500);
 }
 
 function nextSlide(){
     currentIndex++;
 
     if(currentIndex>=slides.length){
-        slideshow.style.display="none";
-        finalBtn.style.display="block";
+        slideshow.classList.remove("active");
+        finalBtn.classList.add("show");
         return;
     }
 
@@ -216,18 +244,57 @@ function nextSlide(){
 function startFinal(){
     finalScreen.style.display="flex";
 
-    typewriter.innerHTML = `
-    Out of all the strange, random, beautiful things in the Universe....<br><br>
-    I'm just really glad I found you....<br><br>
-    <span class="emphasis">just the way you are....</span><br><br>
-    Happy Birthday, moon of my life 💜💜💜
-    `;
+    const el = typewriter;
+    el.innerHTML="";
+
+    const parts = [
+        { text: "Out of all the strange, random, beautiful things in the Universe....\n\n", speed: 45 },
+        { text: "I'm just really glad I found you....\n\n", speed: 45 },
+        { text: "just the way you are....\n\n", speed: 95, bold: true },
+        { text: "Happy Birthday, moon of my life 💜💜💜", speed: 45 }
+    ];
+
+    let partIndex = 0;
+    let charIndex = 0;
+
+    function type(){
+        if(partIndex >= parts.length) return;
+
+        let part = parts[partIndex];
+
+        if(charIndex === 0){
+            const span = document.createElement("span");
+            if(part.bold) span.className = "emphasis";
+            el.appendChild(span);
+        }
+
+        const currentSpan = el.lastChild;
+
+        if(charIndex < part.text.length){
+            const char = part.text[charIndex];
+            currentSpan.innerHTML += (char === "\n") ? "<br>" : char;
+            charIndex++;
+
+            let delay = part.speed + Math.random()*30;
+            if(char === ".") delay += 150;
+
+            setTimeout(type, delay);
+
+        } else {
+            partIndex++;
+            charIndex = 0;
+            setTimeout(type, 300);
+        }
+    }
+
+    setTimeout(type, 400);
 }
 
 function closeFinal(e){
     e.stopPropagation();
     finalScreen.style.display="none";
 }
+
 </script>
 
 </body>
