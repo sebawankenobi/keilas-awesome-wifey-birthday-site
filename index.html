@@ -114,7 +114,7 @@ button {
     align-items: center;
 }
 
-#backBtn { margin-top: 40px; }
+#backBtn { margin-top: 60px; }
 
 </style>
 </head>
@@ -261,15 +261,16 @@ function nextSlide(){
 function startFinal(){
     document.getElementById("finalScreen").style.display="flex";
 
-    const text="Out of all the strange, random, beautiful things...\n\nI’m just really glad I found you 💜";
-    const el=document.getElementById("typewriter");
+    const text = "Out of all the strange, random, beautiful things in the Universe....\n\nI'm just really glad I found you....\n\nHappy Birthday, moon of my life.";
+
+    const el = document.getElementById("typewriter");
 
     el.innerHTML="";
     let i=0;
 
     function type(){
         if(i<text.length){
-            el.innerHTML+=text[i]==="\n"?"<br>":text[i];
+            el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
             i++;
             setTimeout(type,40);
         }
